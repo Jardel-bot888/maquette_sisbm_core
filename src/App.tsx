@@ -13,11 +13,11 @@ import {
 
 // ─── Palette ──────────────────────────────────────────────────────────────────
 const C = {
-  navy: "#0F172A",
-  navyMid: "#1E293B",
-  navyLight: "#334155",
-  primary: "#2563EB",
-  primaryLight: "#3B82F6",
+  navy: "#071B2D",
+  navyMid: "#0D233C",
+  navyLight: "#183B5E",
+  primary: "#1A6BBA",
+  primaryLight: "#3A9AEF",
   green: "#10B981",
   red: "#EF4444",
   orange: "#F59E0B",
@@ -25,9 +25,9 @@ const C = {
   text: "#F8FAFC",
   textMuted: "#94A3B8",
   textDim: "#CBD5E1",
-  border: "#1E293B",
-  cardBg: "#1E293B",
-  bg: "#0F172A",
+  border: "#183B5E",
+  cardBg: "#102B46",
+  bg: "#071B2D",
   white: "#FFFFFF",
 };
 
@@ -283,7 +283,7 @@ function Sidebar({ active, setActive }: { active: string; setActive: (s: string)
               title={collapsed ? item.label : undefined}
               className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm transition-all relative group"
               style={{
-                background: isActive ? "#1D4ED8" + "33" : "transparent",
+                background: isActive ? C.primary + "22" : "transparent",
                 borderLeft: isActive ? `3px solid ${C.primary}` : "3px solid transparent",
                 color: locked ? C.navyLight : isActive ? C.text : C.textMuted,
                 cursor: locked ? "not-allowed" : "pointer",
@@ -317,16 +317,21 @@ function Sidebar({ active, setActive }: { active: string; setActive: (s: string)
       {/* Footer brand */}
       {!collapsed && (
         <div className="px-4 py-4 border-t" style={{ borderColor: C.border }}>
-          <div className="flex items-center gap-1 mb-1">
-            <div className="grid grid-cols-3 gap-0.5">
-              {[...Array(9)].map((_, i) => (
-                <div key={i} className="w-1 h-1 rounded-sm" style={{ background: C.primary }} />
-              ))}
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: "#0B1320", borderColor: C.border }}>
+              <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
             </div>
-            <span className="font-bold text-sm ml-1" style={{ color: C.text }}>SISBM</span>
+            <div className="min-w-0">
+              <div className="font-black text-lg leading-none tracking-tight" style={{ color: C.text }}>SISBM</div>
+            </div>
           </div>
-          <p className="text-xs leading-tight" style={{ color: C.textMuted }}>Sécuriser · Construire<br />Connecter · Former</p>
-          <div className="mt-2 text-xs px-2 py-1 rounded" style={{ background: "#1e3a5f", color: C.primaryLight }}>
+
+          <div className="mt-3 space-y-0.5 text-[11px] leading-tight" style={{ color: C.textMuted }}>
+            <div>Sécuriser · Construire</div>
+            <div>Connecter · Former</div>
+          </div>
+
+          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: "#102D4A", borderColor: C.primaryLight, color: C.primaryLight }}>
             Plan Gold · Actif
           </div>
         </div>
@@ -358,25 +363,60 @@ function AbidjanMap({ onVehicleClick }: { onVehicleClick: (v: typeof vehicles[0]
           const left = `${(v.x / 650) * 100}%`;
           const top = `${(v.y / 420) * 100}%`;
 
+          const isMoving = v.status === "moving" || v.status === "alert";
+          const animationStyle = isMoving
+            ? {
+                animation: "vehicleTravel 2.2s ease-in-out infinite alternate",
+                transformOrigin: "center",
+              }
+            : {};
+
           return (
-            <button
+            <div
               key={v.plate}
-              type="button"
-              onClick={() => onVehicleClick(v)}
-              className="absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1 rounded-full border shadow-lg"
-              style={{
-                left,
-                top,
-                background: sc.color,
-                borderColor: "rgba(255,255,255,0.7)",
-                boxShadow: `0 0 0 3px ${sc.color}33`,
-                padding: "4px 8px",
-              }}
-              title={`${v.plate} · ${v.pos}`}
+              className="absolute -translate-x-1/2 -translate-y-1/2"
+              style={{ left, top }}
             >
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-white" />
-              <span className="text-[9px] font-bold text-white tracking-wide">{v.plate}</span>
-            </button>
+              {isMoving && (
+                <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" style={{ width: 44, height: 24 }}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className="absolute rounded-full"
+                      style={{
+                        left: `${8 + i * 7}px`,
+                        top: `${12 + (i % 2 === 0 ? 2 : -2)}px`,
+                        width: i === 4 ? 5 : 4,
+                        height: i === 4 ? 5 : 4,
+                        background: i === 4 ? "rgba(255,255,255,0.8)" : "rgba(255,255,255,0.35)",
+                        opacity: 0.2 + i * 0.16,
+                        animation: `vehicleTrail 1.5s ease-in-out ${i * 0.12}s infinite`,
+                        transform: "translateX(-12px)",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={() => onVehicleClick(v)}
+                className="relative flex items-center gap-2 rounded-full border shadow-lg"
+                style={{
+                  background: "#0F172A",
+                  borderColor: "rgba(255,255,255,0.7)",
+                  boxShadow: `0 0 0 3px rgba(15, 23, 42, 0.25)`,
+                  padding: "5px 9px 5px 6px",
+                  ...animationStyle,
+                }}
+                title={`${v.plate} · ${v.pos}`}
+              >
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border" style={{ background: sc.color, borderColor: "rgba(255,255,255,0.5)" }}>
+                  <CarFront className="h-3.5 w-3.5 text-white" />
+                </span>
+                <span className="text-[9px] font-bold text-white tracking-wide whitespace-nowrap">{v.plate}</span>
+              </button>
+            </div>
           );
         })}
       </div>
@@ -808,15 +848,15 @@ function FleetTable({ onImmobilize }: { onImmobilize: (v: typeof vehicles[0]) =>
                     </span>
                   </td>
                   <td className="py-3 align-middle">
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex items-center gap-2 opacity-100 transition-opacity">
                       <button
                         onClick={() => onImmobilize(v)}
-                        className="px-2 py-1 rounded-lg text-xs font-semibold border"
+                        className="px-2 py-1 rounded-lg text-xs font-semibold border leading-none"
                         style={{ background: "#7F1D1D", color: "#FCA5A5", borderColor: C.red + "44" }}
                       >
                         🔌 Couper
                       </button>
-                      <button className="px-2 py-1 rounded-lg text-xs border" style={{ background: C.navy, color: C.textMuted, borderColor: C.border }}>📋</button>
+                      <button className="px-2 py-1 rounded-lg text-xs border leading-none" style={{ background: C.navy, color: C.textMuted, borderColor: C.border }}>📋</button>
                     </div>
                   </td>
                 </tr>

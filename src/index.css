@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import 'tailwindcss';
 
 :root {
@@ -24,11 +24,48 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: var(--content-bg);
   color: var(--text-primary);
   margin: 0;
   padding: 0;
+}
+
+html, body, #root {
+  font-family: 'Poppins', sans-serif;
+}
+
+@keyframes vehicleTravel {
+  0% {
+    transform: translate(-4px, 2px) scale(1);
+  }
+  25% {
+    transform: translate(2px, -3px) scale(1.02);
+  }
+  50% {
+    transform: translate(6px, 1px) scale(1);
+  }
+  75% {
+    transform: translate(-2px, -2px) scale(1.02);
+  }
+  100% {
+    transform: translate(4px, 3px) scale(1);
+  }
+}
+
+@keyframes vehicleTrail {
+  0% {
+    opacity: 0.15;
+    transform: translateX(-16px) scale(0.7);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(2px) scale(1);
+  }
+  100% {
+    opacity: 0.15;
+    transform: translateX(18px) scale(0.8);
+  }
 }
 
 ::-webkit-scrollbar {
