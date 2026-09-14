@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import logoUrl from "../image/logo.png";
 import {
+  Activity, AlertTriangle, ArrowDownToLine, BatteryCharging, Bell, BellRing,
+  CarFront, ChevronDown, CircleDashed, Clock3, FileText, Fuel, Gauge,
+  KeyRound, LayoutGrid, Map, MapPinned, MessageSquareText, Power, RadioTower,
+  Search, Shield, ShieldCheck, TriangleAlert, Users, Wrench,
+} from "lucide-react";
+import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis,
   Tooltip, Legend, ResponsiveContainer, LineChart, Line, CartesianGrid,
 } from "recharts";
@@ -27,19 +33,19 @@ const C = {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const navItems = [
-  { icon: "📊", label: "Tableau de bord", tier: "standard" },
-  { icon: "📍", label: "Tracking GPS", tier: "standard", badge: 0 },
-  { icon: "🗺️", label: "Zones géographiques", tier: "standard" },
-  { icon: "⚡", label: "Contrôle des vitesses", tier: "standard" },
-  { icon: "🕐", label: "Gestion des horaires", tier: "gold" },
-  { icon: "🔔", label: "Centre d'alertes SMS", tier: "standard", badge: 7 },
-  { icon: "⚠️", label: "Gestion des incidents", tier: "standard", badge: 2 },
-  { icon: "⚙️", label: "Moteur de règles", tier: "gold" },
-  { icon: "📋", label: "Rapports & Exports", tier: "standard" },
-  { icon: "🔧", label: "Maintenance préventive", tier: "gold" },
-  { icon: "👤", label: "Conducteurs", tier: "standard" },
-  { icon: "💬", label: "Supervision SMS & Fact.", tier: "premium" },
-  { icon: "🛡️", label: "Administration & Droits", tier: "premium" },
+  { icon: LayoutGrid, label: "Tableau de bord", tier: "standard" },
+  { icon: MapPinned, label: "Tracking GPS", tier: "standard", badge: 0 },
+  { icon: Map, label: "Zones géographiques", tier: "standard" },
+  { icon: Gauge, label: "Contrôle des vitesses", tier: "standard" },
+  { icon: Clock3, label: "Gestion des horaires", tier: "gold" },
+  { icon: BellRing, label: "Centre d'alertes SMS", tier: "standard", badge: 7 },
+  { icon: TriangleAlert, label: "Gestion des incidents", tier: "standard", badge: 2 },
+  { icon: ShieldCheck, label: "Moteur de règles", tier: "gold" },
+  { icon: FileText, label: "Rapports & Exports", tier: "standard" },
+  { icon: Wrench, label: "Maintenance préventive", tier: "gold" },
+  { icon: Users, label: "Conducteurs", tier: "standard" },
+  { icon: MessageSquareText, label: "Supervision SMS & Fact.", tier: "premium" },
+  { icon: Shield, label: "Administration & Droits", tier: "premium" },
 ];
 
 const tierOrder = { standard: 0, gold: 1, premium: 2 };
@@ -61,17 +67,17 @@ const statusConfig = {
 };
 
 const alerts = [
-  { level: "critical", icon: "🚨", title: "Dépassement de vitesse", desc: "AB 450 FC – 92 km/h (zone 70 km/h)", time: "10:12", plate: "AB 450 FC" },
-  { level: "critical", icon: "📡", title: "Suspicion brouillage GPS (Jamming)", desc: "AB 580 CS – Signal perdu 4 min", time: "09:51", plate: "AB 580 CS" },
-  { level: "major", icon: "🗺️", title: "Sortie de zone autorisée", desc: "AA 328 XP – Zone Portuaire franchie", time: "09:47", plate: "AA 328 XP" },
-  { level: "major", icon: "🔋", title: "Batterie faible traceur", desc: "AB 580 CS – 9,4V (seuil: 11V)", time: "09:33", plate: "AB 580 CS" },
-  { level: "medium", icon: "🔑", title: "Ignition ON hors horaires", desc: "AA 386 KA – Démarrage 06:41", time: "08:56", plate: "AA 386 KA" },
-  { level: "medium", icon: "📡", title: "Tracker déconnecté", desc: "AB 723 GJ – Silence 1h 12min", time: "08:21", plate: "AB 723 GJ" },
+  { level: "critical", icon: AlertTriangle, title: "Dépassement de vitesse", desc: "AB 450 FC – 92 km/h (zone 70 km/h)", time: "10:12", plate: "AB 450 FC" },
+  { level: "critical", icon: RadioTower, title: "Suspicion brouillage GPS (Jamming)", desc: "AB 580 CS – Signal perdu 4 min", time: "09:51", plate: "AB 580 CS" },
+  { level: "major", icon: Map, title: "Sortie de zone autorisée", desc: "AA 328 XP – Zone Portuaire franchie", time: "09:47", plate: "AA 328 XP" },
+  { level: "major", icon: BatteryCharging, title: "Batterie faible traceur", desc: "AB 580 CS – 9,4V (seuil: 11V)", time: "09:33", plate: "AB 580 CS" },
+  { level: "medium", icon: KeyRound, title: "Ignition ON hors horaires", desc: "AA 386 KA – Démarrage 06:41", time: "08:56", plate: "AA 386 KA" },
+  { level: "medium", icon: RadioTower, title: "Tracker déconnecté", desc: "AB 723 GJ – Silence 1h 12min", time: "08:21", plate: "AB 723 GJ" },
 ];
 
 const incidents = [
-  { icon: "💥", title: "Accident détecté (Choc G>3)", desc: "AB 450 FC – Cocody, Bd de France", time: "03:12", color: C.red },
-  { icon: "🛑", title: "Freinage brusque (G-Force)", desc: "AA 328 XP – Yopougon, carrefour N1", time: "07:45", color: C.orange },
+  { icon: Activity, title: "Accident détecté (Choc G>3)", desc: "AB 450 FC – Cocody, Bd de France", time: "03:12", color: C.red },
+  { icon: CircleDashed, title: "Freinage brusque (G-Force)", desc: "AA 328 XP – Yopougon, carrefour N1", time: "07:45", color: C.orange },
 ];
 
 const reports = [
@@ -100,11 +106,11 @@ const incidentBar = [
 ];
 
 const quickActions = [
-  { icon: "🗺️", label: "Gestion des zones" },
-  { icon: "⚡", label: "Gestion des vitesses" },
-  { icon: "🕐", label: "Gestion des horaires" },
-  { icon: "⚙️", label: "Moteur de règles" },
-  { icon: "📋", label: "Génération rapports" },
+  { icon: Map, label: "Gestion des zones" },
+  { icon: Gauge, label: "Gestion des vitesses" },
+  { icon: Clock3, label: "Gestion des horaires" },
+  { icon: ShieldCheck, label: "Moteur de règles" },
+  { icon: FileText, label: "Génération rapports" },
 ];
 
 const alertLevelConfig = {
@@ -150,68 +156,65 @@ function Header({ onNotifClick, onUserMenu }: { onNotifClick: () => void; onUser
   const [showOrgMenu, setShowOrgMenu] = useState(false);
   return (
     <header
-      className="flex items-center gap-3 px-5 py-2.5 border-b flex-shrink-0"
-      style={{ background: C.navyMid, borderColor: C.border, height: 60 }}
+      className="flex items-center gap-3 px-4 py-2.5 border-b flex-shrink-0"
+      style={{ background: C.navyMid, borderColor: C.border, minHeight: 60 }}
     >
-      {/* Logo + live badge */}
-      <div className="flex items-center gap-3 flex-shrink-0" style={{ minWidth: 220 }}>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border" style={{ background: "#0B1320", borderColor: C.border }}>
+      <div className="flex items-center gap-3 flex-shrink-0" style={{ minWidth: 250, width: 250 }}>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: "#0B1320", borderColor: C.border }}>
             <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
           </div>
-          <span className="font-black text-xl tracking-tight" style={{ color: C.text }}>SISBM</span>
+          <span className="font-black text-xl leading-none tracking-tight" style={{ color: C.text }}>SISBM</span>
         </div>
-        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-xs font-semibold" style={{ borderColor: C.green, color: C.green, background: "#052E16" }}>
+        <div className="flex items-center gap-1.5 px-2 py-1 rounded-full border text-[11px] font-semibold leading-none whitespace-nowrap" style={{ borderColor: C.green, color: C.green, background: "#052E16" }}>
           <BlinkDot color={C.green} />
           Live · Serveur OK
         </div>
       </div>
 
-      {/* Search */}
-      <div className="flex-1 max-w-md">
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg border" style={{ background: C.navy, borderColor: C.navyLight }}>
+      <div className="flex-1 min-w-0 max-w-[360px]">
+        <div className="flex items-center gap-2 h-10 px-3 rounded-lg border" style={{ background: C.navy, borderColor: C.navyLight }}>
           <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke={C.gray} viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8" strokeWidth="2" />
             <path d="m21 21-4.35-4.35" strokeWidth="2" strokeLinecap="round" />
           </svg>
           <input
             placeholder="Immatriculation, conducteur, zone, traceur…"
-            className="bg-transparent text-sm outline-none w-full"
+            className="bg-transparent text-sm outline-none w-full min-w-0"
             style={{ color: C.textMuted }}
           />
-          <kbd className="text-xs px-1.5 py-0.5 rounded" style={{ background: C.navyLight, color: C.textMuted }}>⌘K</kbd>
+          <kbd className="text-xs px-1.5 py-0.5 rounded leading-none" style={{ background: C.navyLight, color: C.textMuted }}>⌘K</kbd>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 ml-auto">
-        {/* Clock */}
-        <LiveClock />
+      <div className="flex items-center gap-3 ml-auto flex-shrink-0">
+        <div className="flex min-w-[160px] justify-center">
+          <LiveClock />
+        </div>
 
-        {/* SMS Credits */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border" style={{ background: "#1C1917", borderColor: "#44403C" }}>
-          <span className="text-xs" style={{ color: C.textMuted }}>SMS restant</span>
-          <span className="font-bold text-sm" style={{ color: "#FCD34D" }}>1 420</span>
-          <button className="text-xs px-2 py-0.5 rounded font-semibold" style={{ background: "#92400E", color: "#FCD34D" }}>
+        <div className="flex items-center gap-2 px-3 h-10 rounded-lg border whitespace-nowrap" style={{ background: "#1C1917", borderColor: "#44403C" }}>
+          <span className="text-xs leading-none" style={{ color: C.textMuted }}>SMS restant</span>
+          <span className="font-bold text-sm leading-none" style={{ color: "#FCD34D" }}>1 420</span>
+          <button className="text-xs px-2 py-1 rounded font-semibold leading-none" style={{ background: "#92400E", color: "#FCD34D" }}>
             Recharger
           </button>
         </div>
 
-        {/* Org selector */}
         <div className="relative">
           <button
             onClick={() => setShowOrgMenu(!showOrgMenu)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm"
+            className="flex items-center gap-2 px-3 h-10 rounded-lg border text-sm whitespace-nowrap"
             style={{ background: C.navy, borderColor: C.navyLight, color: C.text }}
           >
             <span className="w-5 h-5 rounded text-xs font-bold flex items-center justify-center" style={{ background: C.primary }}>T</span>
-            <span>Transports Kouamé</span>
+            <span className="leading-none">Transports Kouamé</span>
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </button>
           {showOrgMenu && (
             <div className="absolute right-0 top-full mt-1 w-52 rounded-xl border shadow-2xl py-1 z-50" style={{ background: C.navyMid, borderColor: C.navyLight }}>
-              {["Transports Kouamé", "Logistique Abidjan", "Fleet CI SAS"].map((org) => (
+              {['Transports Kouamé', 'Logistique Abidjan', 'Fleet CI SAS'].map((org) => (
                 <button key={org} onClick={() => setShowOrgMenu(false)} className="w-full text-left px-4 py-2 text-sm hover:bg-[#334155]" style={{ color: C.text }}>
                   {org}
                 </button>
@@ -220,10 +223,9 @@ function Header({ onNotifClick, onUserMenu }: { onNotifClick: () => void; onUser
           )}
         </div>
 
-        {/* Notifications */}
         <button
           onClick={onNotifClick}
-          className="relative w-9 h-9 rounded-lg flex items-center justify-center border"
+          className="relative w-10 h-10 rounded-lg flex items-center justify-center border flex-shrink-0"
           style={{ background: C.navy, borderColor: C.navyLight }}
         >
           <svg className="w-5 h-5" fill="none" stroke={C.textMuted} viewBox="0 0 24 24">
@@ -233,16 +235,15 @@ function Header({ onNotifClick, onUserMenu }: { onNotifClick: () => void; onUser
           <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full text-xs font-bold flex items-center justify-center" style={{ background: C.red, color: "white", fontSize: 9 }}>7</span>
         </button>
 
-        {/* User avatar */}
         <button
           onClick={onUserMenu}
-          className="flex items-center gap-2 px-2 py-1 rounded-lg border"
+          className="flex items-center gap-2 px-2 h-10 rounded-lg border whitespace-nowrap flex-shrink-0"
           style={{ background: C.navy, borderColor: C.navyLight }}
         >
           <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs" style={{ background: C.primary, color: "white" }}>AD</div>
-          <div className="text-left">
+          <div className="text-left leading-none">
             <div className="text-xs font-semibold" style={{ color: C.text }}>Administrateur</div>
-            <div className="text-xs" style={{ color: C.textMuted }}>Super Admin</div>
+            <div className="text-xs mt-0.5" style={{ color: C.textMuted }}>Super Admin</div>
           </div>
           <svg className="w-3 h-3 ml-1" fill="none" stroke={C.gray} viewBox="0 0 24 24">
             <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" />
@@ -274,6 +275,7 @@ function Sidebar({ active, setActive }: { active: string; setActive: (s: string)
         {navItems.map((item) => {
           const locked = tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[userTier as keyof typeof tierOrder];
           const isActive = active === item.label;
+          const Icon = item.icon;
           return (
             <button
               key={item.label}
@@ -287,7 +289,9 @@ function Sidebar({ active, setActive }: { active: string; setActive: (s: string)
                 cursor: locked ? "not-allowed" : "pointer",
               }}
             >
-              <span className="text-base w-5 text-center flex-shrink-0">{locked ? "🔒" : item.icon}</span>
+              <span className="text-base w-5 text-center flex-shrink-0 flex items-center justify-center">
+                {locked ? <Shield className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+              </span>
               {!collapsed && (
                 <>
                   <span className="flex-1 truncate font-medium" style={{ color: locked ? "#475569" : isActive ? C.text : C.textMuted }}>
@@ -613,18 +617,29 @@ function ImmobilizationModal({ vehicle, onClose }: { vehicle: typeof vehicles[0]
 }
 
 // ─── KPI Card ─────────────────────────────────────────────────────────────────
-function KpiCard({ icon, label, value, sub, subColor, trend }: {
-  icon: string; label: string; value: string; sub: string; subColor: string; trend?: string | null;
+function KpiCard({ icon: Icon, label, value, sub, subColor, trend }: {
+  icon: any; label: string; value: string; sub: string; subColor: string; trend?: string | null;
 }) {
   return (
-    <div className="flex items-start gap-3 px-4 py-4 rounded-xl border transition-all hover:border-blue-700" style={{ background: C.cardBg, borderColor: C.border }}>
-      <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style={{ background: C.navy }}>
-        {icon}
+    <div
+      className="flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all hover:border-blue-700"
+      style={{
+        background: C.cardBg,
+        borderColor: C.border,
+        minHeight: 96,
+        boxShadow: "inset 0 0 0 1px rgba(148,163,184,0.05)",
+      }}
+    >
+      <div
+        className="flex h-10 w-10 items-center justify-center rounded-full border flex-shrink-0"
+        style={{ background: "rgba(15, 23, 42, 0.9)", borderColor: "rgba(148, 163, 184, 0.2)" }}
+      >
+        <Icon className="h-4 w-4" style={{ color: C.text }} />
       </div>
-      <div className="min-w-0">
-        <p className="text-xs truncate" style={{ color: C.textMuted }}>{label}</p>
-        <p className="font-black text-xl leading-tight" style={{ color: C.text }}>{value}</p>
-        <p className="text-xs mt-0.5" style={{ color: subColor === "green" ? C.green : subColor === "red" ? C.red : C.textMuted }}>{sub}</p>
+      <div className="min-w-0 flex-1 leading-none">
+        <p className="text-[13px] font-medium leading-none" style={{ color: C.textMuted }}>{label}</p>
+        <p className="mt-2 font-black text-[24px] leading-none tracking-[-0.04em]" style={{ color: C.text }}>{value}</p>
+        <p className="mt-2 text-[12px] leading-none" style={{ color: subColor === "green" ? C.green : subColor === "red" ? C.red : C.textMuted }}>{sub}</p>
       </div>
     </div>
   );
@@ -646,9 +661,12 @@ function AlertsPanel() {
         <div className="space-y-2.5">
           {alerts.map((a, i) => {
             const lvl = alertLevelConfig[a.level as keyof typeof alertLevelConfig];
+            const Icon = a.icon;
             return (
               <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: lvl.bg, borderColor: lvl.border + "44" }}>
-                <span className="text-base flex-shrink-0 mt-0.5">{a.icon}</span>
+                <span className="flex-shrink-0 mt-0.5 flex h-7 w-7 items-center justify-center rounded-lg bg-white/5">
+                  <Icon className="h-3.5 w-3.5" style={{ color: C.text }} />
+                </span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <span className="text-xs font-black rounded px-1.5 py-0.5" style={{ background: lvl.badge, color: "white", fontSize: 9 }}>{lvl.label}</span>
@@ -674,16 +692,21 @@ function AlertsPanel() {
           <button className="text-xs font-semibold" style={{ color: C.primary }}>Voir tout</button>
         </div>
         <div className="space-y-2.5">
-          {incidents.map((inc, i) => (
-            <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: inc.color + "11", borderColor: inc.color + "33" }}>
-              <span className="text-base flex-shrink-0">{inc.icon}</span>
-              <div className="flex-1">
-                <p className="text-xs font-semibold" style={{ color: C.text }}>{inc.title}</p>
-                <p className="text-xs" style={{ color: C.textMuted }}>{inc.desc}</p>
+          {incidents.map((inc, i) => {
+            const Icon = inc.icon;
+            return (
+              <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: inc.color + "11", borderColor: inc.color + "33" }}>
+                <span className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-white/5">
+                  <Icon className="h-3.5 w-3.5" style={{ color: C.text }} />
+                </span>
+                <div className="flex-1">
+                  <p className="text-xs font-semibold" style={{ color: C.text }}>{inc.title}</p>
+                  <p className="text-xs" style={{ color: C.textMuted }}>{inc.desc}</p>
+                </div>
+                <span className="text-xs font-mono" style={{ color: C.textMuted }}>{inc.time}</span>
               </div>
-              <span className="text-xs font-mono" style={{ color: C.textMuted }}>{inc.time}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
@@ -717,18 +740,33 @@ function AlertsPanel() {
 // ─── Fleet Table ──────────────────────────────────────────────────────────────
 function FleetTable({ onImmobilize }: { onImmobilize: (v: typeof vehicles[0]) => void }) {
   return (
-    <div className="rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <span className="font-bold text-sm" style={{ color: C.text }}>Flux des véhicules en direct</span>
-          <span className="text-xs ml-2" style={{ color: C.textMuted }}>(dernières 24h)</span>
+    <div className="rounded-2xl border p-4" style={{ background: "#16273d", borderColor: "#24364f" }}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-baseline gap-2">
+          <span className="font-bold text-[16px]" style={{ color: C.text }}>Flux des véhicules en direct</span>
+          <span className="text-xs" style={{ color: C.textMuted }}>(dernières 24h)</span>
         </div>
         <div className="flex items-center gap-2">
-          {["Tous", "En déplacement", "À l'arrêt"].map((f) => (
-            <button key={f} className="text-xs px-2.5 py-1 rounded-lg font-medium" style={{ background: C.navy, color: C.textMuted, border: `1px solid ${C.border}` }}>{f}</button>
+          {[
+            { label: "Tous", active: true },
+            { label: "En déplacement", active: false },
+            { label: "À l'arrêt", active: false },
+          ].map((f) => (
+            <button
+              key={f.label}
+              className="text-xs px-2.5 py-1.5 rounded-lg font-medium transition-all"
+              style={{
+                background: f.active ? "#1f2d3d" : "transparent",
+                color: f.active ? C.text : C.textMuted,
+                border: `1px solid ${f.active ? "#3a4c63" : C.border}`,
+              }}
+            >
+              {f.label}
+            </button>
           ))}
         </div>
       </div>
+
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
@@ -742,8 +780,8 @@ function FleetTable({ onImmobilize }: { onImmobilize: (v: typeof vehicles[0]) =>
             {vehicles.map((v, i) => {
               const sc = statusConfig[v.status as keyof typeof statusConfig];
               return (
-                <tr key={i} className="border-b group hover:bg-white/5 transition-colors" style={{ borderColor: C.border + "55" }}>
-                  <td className="py-3 pr-3">
+                <tr key={i} className="group transition-colors" style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                  <td className="py-3 pr-3 align-middle">
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: sc.color }} />
                       <div>
@@ -752,24 +790,24 @@ function FleetTable({ onImmobilize }: { onImmobilize: (v: typeof vehicles[0]) =>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 pr-3" style={{ color: C.textDim }}>{v.driver}</td>
-                  <td className="py-3 pr-3" style={{ color: C.textMuted }}>{v.pos}</td>
-                  <td className="py-3 pr-3">
-                    <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: sc.color + "22", color: sc.color, border: `1px solid ${sc.color}44` }}>
+                  <td className="py-3 pr-3 align-middle" style={{ color: C.textDim }}>{v.driver}</td>
+                  <td className="py-3 pr-3 align-middle" style={{ color: C.textMuted }}>{v.pos}</td>
+                  <td className="py-3 pr-3 align-middle">
+                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[11px] font-semibold leading-none" style={{ background: sc.color + "22", color: sc.color, border: `1px solid ${sc.color}44` }}>
                       {sc.label}
                     </span>
                   </td>
-                  <td className="py-3 pr-3">
-                    <span className="font-mono font-bold" style={{ color: v.speed > 80 ? C.red : v.speed > 0 ? C.green : C.textMuted }}>
+                  <td className="py-3 pr-3 align-middle">
+                    <span className="inline-flex items-center leading-none font-mono font-bold" style={{ color: v.speed > 80 ? C.red : v.speed > 0 ? C.green : C.textMuted }}>
                       {v.speed} km/h
                     </span>
                   </td>
-                  <td className="py-3 pr-3">
+                  <td className="py-3 pr-3 align-middle">
                     <span className="font-mono" style={{ color: v.battery < 11 ? C.red : v.battery < 12 ? C.orange : C.green }}>
                       {v.battery > 0 ? `${v.battery}V` : "N/A"}
                     </span>
                   </td>
-                  <td className="py-3">
+                  <td className="py-3 align-middle">
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
                         onClick={() => onImmobilize(v)}
@@ -787,7 +825,7 @@ function FleetTable({ onImmobilize }: { onImmobilize: (v: typeof vehicles[0]) =>
           </tbody>
         </table>
       </div>
-      <button className="mt-3 text-xs font-semibold flex items-center gap-1" style={{ color: C.primary }}>
+      <button className="mt-4 text-xs font-semibold flex items-center gap-1" style={{ color: C.primary }}>
         Voir tous les véhicules →
       </button>
     </div>
@@ -855,13 +893,13 @@ export default function App() {
         {/* Dashboard content */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4" style={{ background: C.bg }}>
           {/* KPIs */}
-          <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
+          <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(5, minmax(0, 1fr))" }}>
             {[
-              { icon: "🚗", label: "Véhicules en service", value: "24 / 28", sub: "● 86% opérationnels", subColor: "green" },
-              { icon: "📍", label: "En déplacement", value: "20", sub: "● Temps réel", subColor: "green" },
-              { icon: "🛑", label: "À l'arrêt", value: "4", sub: "● Hors service 2 | Pause 2", subColor: "red" },
-              { icon: "⚡", label: "Vitesse moyenne flotte", value: "48 km/h", sub: "▼ −12% vs hier", subColor: "green" },
-              { icon: "⛽", label: "Consommation estimée", value: "342 L", sub: "▼ −8% vs hier", subColor: "green" },
+              { icon: CarFront, label: "Véhicules en service", value: "24 / 28", sub: "● 86% opérationnels", subColor: "green" },
+              { icon: MapPinned, label: "En déplacement", value: "20", sub: "● Temps réel", subColor: "green" },
+              { icon: CircleDashed, label: "À l'arrêt", value: "4", sub: "● Hors service 2 | Pause 2", subColor: "red" },
+              { icon: Gauge, label: "Vitesse moyenne flotte", value: "48 km/h", sub: "▼ −12% vs hier", subColor: "green" },
+              { icon: Fuel, label: "Consommation estimée", value: "342 L", sub: "▼ −8% vs hier", subColor: "green" },
             ].map((kpi, i) => <KpiCard key={i} {...kpi} />)}
           </div>
 
@@ -890,18 +928,21 @@ export default function App() {
 
           {/* Quick actions */}
           <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
-            {quickActions.map((qa, i) => (
-              <button
-                key={i}
-                className="flex flex-col items-center gap-2 px-3 py-4 rounded-xl border text-center transition-all hover:border-blue-600 group"
-                style={{ background: C.cardBg, borderColor: C.border }}
-              >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl transition-all" style={{ background: C.navy }}>
-                  {qa.icon}
-                </div>
-                <p className="text-xs font-semibold" style={{ color: C.text }}>{qa.label}</p>
-              </button>
-            ))}
+            {quickActions.map((qa, i) => {
+              const Icon = qa.icon;
+              return (
+                <button
+                  key={i}
+                  className="flex flex-col items-center gap-2 px-3 py-4 rounded-xl border text-center transition-all hover:border-blue-600 group"
+                  style={{ background: C.cardBg, borderColor: C.border }}
+                >
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all" style={{ background: C.navy }}>
+                    <Icon className="h-5 w-5" style={{ color: C.text }} />
+                  </div>
+                  <p className="text-xs font-semibold" style={{ color: C.text }}>{qa.label}</p>
+                </button>
+              );
+            })}
           </div>
 
           {/* Bottom: Table + Charts */}
@@ -911,23 +952,23 @@ export default function App() {
             {/* Charts column */}
             <div className="flex flex-col gap-4">
               {/* Fleet pie */}
-              <div className="rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
-                <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>État de la flotte</span>
-                <div className="flex items-center gap-4">
+              <div className="rounded-2xl border p-4" style={{ background: "#16273d", borderColor: "#24364f" }}>
+                <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>État de la flotte</span>
+                <div className="flex items-center gap-5">
                   <div className="relative flex-shrink-0">
-                    <PieChart width={120} height={120}>
-                      <Pie data={fleetPie} cx={55} cy={55} innerRadius={35} outerRadius={55} dataKey="value" startAngle={90} endAngle={-270}>
+                    <PieChart width={170} height={170}>
+                      <Pie data={fleetPie} cx={85} cy={85} innerRadius={42} outerRadius={68} dataKey="value" startAngle={90} endAngle={-270}>
                         {fleetPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
                       </Pie>
                     </PieChart>
                     <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                      <span className="font-black text-lg" style={{ color: C.text }}>28</span>
-                      <span className="text-xs" style={{ color: C.textMuted }}>Total</span>
+                      <span className="font-black text-[30px] leading-none" style={{ color: C.text }}>28</span>
+                      <span className="text-xs mt-1" style={{ color: C.textMuted }}>Total</span>
                     </div>
                   </div>
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-3 py-2">
                     {fleetPie.map((f, i) => (
-                      <div key={i} className="flex items-center gap-2">
+                      <div key={i} className="flex items-center gap-3">
                         <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: f.color }} />
                         <span className="text-xs flex-1" style={{ color: C.textDim }}>{f.name}</span>
                         <span className="text-xs font-bold" style={{ color: C.text }}>{f.value}</span>
@@ -939,16 +980,16 @@ export default function App() {
               </div>
 
               {/* Bar chart */}
-              <div className="rounded-xl border p-4 flex-1" style={{ background: C.cardBg, borderColor: C.border }}>
-                <span className="font-bold text-sm block mb-2" style={{ color: C.text }}>Évolution des incidents (7j)</span>
-                <ResponsiveContainer width="100%" height={120}>
-                  <BarChart data={incidentBar} barSize={10} barGap={2}>
+              <div className="rounded-2xl border p-4 flex-1" style={{ background: "#16273d", borderColor: "#24364f" }}>
+                <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>Évolution des incidents (7j)</span>
+                <ResponsiveContainer width="100%" height={155}>
+                  <BarChart data={incidentBar} barSize={12} barGap={6}>
                     <XAxis dataKey="date" tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} />
                     <YAxis tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} width={18} />
                     <Tooltip contentStyle={{ background: C.navyMid, border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11, color: C.text }} cursor={{ fill: "#ffffff08" }} />
-                    <Legend wrapperStyle={{ fontSize: 10, color: C.textMuted }} />
-                    <Bar dataKey="incidents" name="Incidents" fill={C.red} radius={[2, 2, 0, 0]} />
-                    <Bar dataKey="alertes" name="Alertes" fill={C.primary} radius={[2, 2, 0, 0]} />
+                    <Legend wrapperStyle={{ fontSize: 10, color: C.textMuted, paddingTop: 8 }} />
+                    <Bar dataKey="alertes" name="Alertes" fill={C.primary} radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="incidents" name="Incidents" fill={C.red} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
