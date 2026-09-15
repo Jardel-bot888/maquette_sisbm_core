@@ -17,6 +17,8 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
       <div className="flex items-center justify-end h-16 px-2 border-b shrink-0" style={{ borderColor: C.border }}>
         <button
           onClick={() => setCollapsed(!collapsed)}
+          aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
+          aria-expanded={!collapsed}
           title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
           className="w-7 h-7 rounded-lg flex items-center justify-center border shrink-0"
           style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}

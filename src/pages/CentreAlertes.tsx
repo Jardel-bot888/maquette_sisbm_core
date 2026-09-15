@@ -37,6 +37,7 @@ export default function CentreAlertes() {
             <button
               key={l.key}
               onClick={() => setLevel(l.key)}
+              aria-pressed={level === l.key}
               className="flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-semibold transition-all"
               style={{ background: level === l.key ? l.color + "22" : C.cardBg, borderColor: level === l.key ? l.color : C.border, color: level === l.key ? l.color : C.textMuted }}
             >

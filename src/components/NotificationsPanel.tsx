@@ -45,6 +45,7 @@ export default function NotificationsPanel({ readIds, onRead, onReadAll, onClose
               <button
                 key={n.id}
                 onClick={() => onRead(n.id)}
+                aria-label={isRead ? `Notification lue : ${n.title}` : `Marquer comme lue : ${n.title}`}
                 className="w-full flex items-start gap-3 px-4 py-3 text-left border-b transition-colors hover:bg-white/5"
                 style={{ borderColor: C.border + "55", background: isRead ? "transparent" : "rgba(26,107,186,0.06)" }}
               >

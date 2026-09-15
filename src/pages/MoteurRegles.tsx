@@ -35,7 +35,7 @@ export default function MoteurRegles() {
                 </div>
                 <p className="text-sm font-bold" style={{ color: C.text }}>{r.name}</p>
               </div>
-              <Toggle on={r.enabled} onChange={() => toggle(r.id)} />
+              <Toggle on={r.enabled} onChange={() => toggle(r.id)} label={`Activer la règle ${r.name}`} />
             </div>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="rounded-xl px-3 py-2" style={{ background: C.navy, border: `1px solid ${C.border}` }}>

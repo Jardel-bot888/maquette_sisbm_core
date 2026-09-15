@@ -88,6 +88,13 @@ html, body, #root {
   animation: routeDotPulse 1.6s ease-in-out infinite;
 }
 
+/* Focus clavier toujours visible (a11y) : anneau sur les éléments interactifs */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Scrollbar fine pour les zones de défilement internes */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

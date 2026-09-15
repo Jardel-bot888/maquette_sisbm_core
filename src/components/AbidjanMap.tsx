@@ -141,12 +141,12 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
           <option value="dark">🌙 Nuit</option>
         </select>
 
-        <div className="flex flex-col overflow-hidden rounded-lg border" style={{ background: C.navyMid, borderColor: C.border }}>
-          <button onClick={() => setZoom((z) => Math.min(z + 0.2, 1.6))} className="w-8 h-7 flex items-center justify-center border-b" style={{ borderColor: C.border, color: C.text }}><Plus className="h-3.5 w-3.5" /></button>
-          <button onClick={() => setZoom((z) => Math.max(z - 0.2, 0.7))} className="w-8 h-7 flex items-center justify-center" style={{ color: C.text }}><Minus className="h-3.5 w-3.5" /></button>
+        <div className="flex flex-col overflow-hidden rounded-lg border" style={{ background: C.navyMid, borderColor: C.border }} role="toolbar" aria-label="Contrôles de zoom de la carte">
+          <button type="button" aria-label="Zoom avant" onClick={() => setZoom((z) => Math.min(z + 0.2, 1.6))} className="w-8 h-7 flex items-center justify-center border-b" style={{ borderColor: C.border, color: C.text }}><Plus className="h-3.5 w-3.5" /></button>
+          <button type="button" aria-label="Zoom arrière" onClick={() => setZoom((z) => Math.max(z - 0.2, 0.7))} className="w-8 h-7 flex items-center justify-center" style={{ color: C.text }}><Minus className="h-3.5 w-3.5" /></button>
         </div>
 
-        <button className="w-8 h-7 rounded-lg border flex items-center justify-center" style={{ background: C.navyMid, borderColor: C.border, color: C.textMuted }}><Maximize2 className="h-3.5 w-3.5" /></button>
+        <button type="button" aria-label="Recentrer la carte" className="w-8 h-7 rounded-lg border flex items-center justify-center" style={{ background: C.navyMid, borderColor: C.border, color: C.textMuted }}><Maximize2 className="h-3.5 w-3.5" /></button>
       </div>
 
       {/* Légende statuts avec compteurs */}

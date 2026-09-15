@@ -201,7 +201,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
             {
               tag: 'a',
               attrs: { class: 'figma-bypass-link', href: '#root' },
-              children: 'Skip to content',
+              children: 'Aller au contenu',
               injectTo: 'body-prepend',
             },
           )

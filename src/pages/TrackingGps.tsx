@@ -39,7 +39,10 @@ export default function TrackingGps({ onVehicleClick }: { onVehicleClick: (v: Ve
               return (
                 <button
                   key={v.plate}
+                  type="button"
                   onClick={() => setSelected(v)}
+                  aria-pressed={active}
+                  aria-label={`Sélectionner le véhicule ${v.plate}`}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left"
                   style={{ background: active ? C.primary + "22" : C.navy, borderColor: active ? C.primary : C.border }}
                 >

@@ -76,9 +76,9 @@ export function PageHeader({ title, subtitle, actions }: {
 }
 
 // ─── Bouton ───────────────────────────────────────────────────────────────────
-export function Btn({ children, variant = "primary", onClick, disabled, className }: {
+export function Btn({ children, variant = "primary", onClick, disabled, className, label }: {
   children: ReactNode; variant?: "primary" | "secondary" | "danger" | "gold"; onClick?: () => void;
-  disabled?: boolean; className?: string;
+  disabled?: boolean; className?: string; label?: string;
 }) {
   const styles: Record<string, React.CSSProperties> = {
     primary: { background: C.primary, color: "white", border: "1px solid transparent" },
@@ -88,9 +88,11 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
   };
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`px-3 py-2 rounded-xl font-semibold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed ${className ?? ""}`}
+      aria-label={label}
+      className={`px-3 py-2 rounded-xl font-semibold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 ${className ?? ""}`}
       style={styles[variant]}
     >
       {children}
@@ -127,11 +129,17 @@ export function Td({ children, className, style, colSpan }: { children?: ReactNo
 }
 
 // ─── Interrupteur ─────────────────────────────────────────────────────────────
-export function Toggle({ on, onChange, disabled }: { on: boolean; onChange?: (v: boolean) => void; disabled?: boolean }) {
+export function Toggle({ on, onChange, disabled, label }: {
+  on: boolean; onChange?: (v: boolean) => void; disabled?: boolean; label?: string;
+}) {
   return (
     <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
       onClick={() => !disabled && onChange?.(!on)}
-      className="relative rounded-full transition-colors flex-shrink-0"
+      className="relative rounded-full transition-colors flex-shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2"
       style={{ background: on ? C.primary : "#334155", width: 40, height: 22, opacity: disabled ? 0.4 : 1, cursor: disabled ? "not-allowed" : "pointer" }}
     >
       <span className="absolute top-0.5 rounded-full bg-white transition-all" style={{ left: on ? 20 : 4, width: 18, height: 18 }} />

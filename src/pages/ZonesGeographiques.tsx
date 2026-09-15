@@ -45,7 +45,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
                 <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: z.color + "22", color: z.color }}>{z.id}</span>
                 <span className="text-sm font-bold" style={{ color: C.text }}>{z.name}</span>
               </div>
-              <Toggle on={z.active} onChange={() => toggle(z.id)} />
+              <Toggle on={z.active} onChange={() => toggle(z.id)} label={`Activer la zone ${z.name}`} />
             </div>
             <div className="rounded-xl border overflow-hidden" style={{ background: C.navy, borderColor: C.border, height: 110, position: "relative" }}>
               <svg viewBox="0 0 640 220" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
@@ -84,7 +84,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
                   <Td><StatusPill color={z.type === "Interdite" ? C.red : C.green} label={z.type} /></Td>
                   <Td style={{ color: C.textDim }}>{z.vehicles}</Td>
                   <Td style={{ color: z.alertsToday > 0 ? C.orange : C.textMuted }}>{z.alertsToday}</Td>
-                  <Td><Toggle on={z.active} onChange={() => toggle(z.id)} /></Td>
+                  <Td><Toggle on={z.active} onChange={() => toggle(z.id)} label={`Activer la zone ${z.name}`} /></Td>
                 </tr>
               ))}
             </tbody>

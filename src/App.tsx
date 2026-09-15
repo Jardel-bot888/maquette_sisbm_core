@@ -2,7 +2,7 @@
 // Navigation latérale, en-tête, rendu des écrans (dashboard + 12 modules),
 // overlays globaux (popover véhicule, immobilisation, notifications, menu profil).
 
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import { C, tierOrder } from "@/theme";
 import { navItems, notifications, userTier, type Vehicle } from "@/data/mock";
 import Sidebar from "@/components/Sidebar";
@@ -11,19 +11,20 @@ import VehiclePopover from "@/components/VehiclePopover";
 import ImmobilizationModal from "@/components/ImmobilizationModal";
 import UserMenu from "@/components/UserMenu";
 import NotificationsPanel from "@/components/NotificationsPanel";
-import Dashboard from "@/pages/Dashboard";
-import TrackingGps from "@/pages/TrackingGps";
-import ZonesGeographiques from "@/pages/ZonesGeographiques";
-import ControleVitesses from "@/pages/ControleVitesses";
-import GestionHoraires from "@/pages/GestionHoraires";
-import CentreAlertes from "@/pages/CentreAlertes";
-import GestionIncidents from "@/pages/GestionIncidents";
-import MoteurRegles from "@/pages/MoteurRegles";
-import RapportsExports from "@/pages/RapportsExports";
-import MaintenancePreventive from "@/pages/MaintenancePreventive";
-import Conducteurs from "@/pages/Conducteurs";
-import SupervisionSms from "@/pages/SupervisionSms";
-import Administration from "@/pages/Administration";
+// ─── Pages en chargement différé : chaque module devient un chunk séparé ──────
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const TrackingGps = lazy(() => import("@/pages/TrackingGps"));
+const ZonesGeographiques = lazy(() => import("@/pages/ZonesGeographiques"));
+const ControleVitesses = lazy(() => import("@/pages/ControleVitesses"));
+const GestionHoraires = lazy(() => import("@/pages/GestionHoraires"));
+const CentreAlertes = lazy(() => import("@/pages/CentreAlertes"));
+const GestionIncidents = lazy(() => import("@/pages/GestionIncidents"));
+const MoteurRegles = lazy(() => import("@/pages/MoteurRegles"));
+const RapportsExports = lazy(() => import("@/pages/RapportsExports"));
+const MaintenancePreventive = lazy(() => import("@/pages/MaintenancePreventive"));
+const Conducteurs = lazy(() => import("@/pages/Conducteurs"));
+const SupervisionSms = lazy(() => import("@/pages/SupervisionSms"));
+const Administration = lazy(() => import("@/pages/Administration"));
 
 export default function App() {
   const [activeNav, setActiveNav] = useState("Tableau de bord");
@@ -99,10 +100,20 @@ export default function App() {
           onUserMenu={() => setShowUserMenu(!showUserMenu)}
           onNavigate={navigate}
           unreadCount={unreadCount}
+          notifOpen={showNotif}
+          userMenuOpen={showUserMenu}
         />
 
         <div className="flex-1 overflow-y-auto p-4" style={{ background: C.bg }}>
-          {renderScreen()}
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center h-64 text-sm" style={{ color: C.textMuted }} role="status" aria-live="polite">
+                Chargement du module…
+              </div>
+            }
+          >
+            {renderScreen()}
+          </Suspense>
         </div>
       </div>
 

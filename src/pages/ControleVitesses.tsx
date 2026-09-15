@@ -73,7 +73,7 @@ export default function ControleVitesses() {
                     </span>
                   </Td>
                   <Td style={{ color: C.textDim }}>{r.vehicles}</Td>
-                  <Td><Toggle on={r.enabled} onChange={() => toggle(r.zone)} /></Td>
+                  <Td><Toggle on={r.enabled} onChange={() => toggle(r.zone)} label={`Activer la limite de vitesse pour ${r.zone}`} /></Td>
                 </tr>
               ))}
             </tbody>

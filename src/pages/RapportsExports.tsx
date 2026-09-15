@@ -23,6 +23,7 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
           <button
             key={f.key}
             onClick={() => setType(f.key)}
+            aria-pressed={type === f.key}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all"
             style={{ background: type === f.key ? C.primary + "22" : C.cardBg, borderColor: type === f.key ? C.primary : C.border, color: type === f.key ? C.primary : C.textMuted }}
           >

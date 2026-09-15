@@ -32,6 +32,7 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
+              aria-pressed={filter === f.key}
               className="text-xs px-2.5 py-1.5 rounded-lg font-medium transition-all"
               style={{
                 background: filter === f.key ? "#1f2d3d" : "transparent",

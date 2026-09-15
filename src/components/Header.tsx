@@ -14,13 +14,15 @@ type HeaderProps = {
   onUserMenu: () => void;
   onNavigate: (label: string) => void;
   unreadCount: number;
+  notifOpen?: boolean;
+  userMenuOpen?: boolean;
 };
 
 type SearchHit = { kind: "vehicle"; label: string; sub: string } | { kind: "zone"; label: string; sub: string } | { kind: "driver"; label: string; sub: string };
 
 type FixedRect = { left: number; top: number; width: number };
 
-export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCount }: HeaderProps) {
+export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCount, notifOpen = false, userMenuOpen = false }: HeaderProps) {
   const [showOrgMenu, setShowOrgMenu] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -164,7 +166,12 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
           </div>
 
         <div className="hidden xl:block relative shrink-0">
-            <button ref={orgBtnRef} onClick={openOrgMenu} className="flex items-center gap-2 px-3 h-10 rounded-lg border text-sm whitespace-nowrap shrink-0" style={{ background: C.navy, borderColor: C.navyLight, color: C.text }}>
+            <button
+          ref={orgBtnRef}
+          onClick={openOrgMenu}
+          aria-label="Choisir une organisation"
+          aria-expanded={showOrgMenu}
+          className="flex items-center gap-2 px-3 h-10 rounded-lg border text-sm whitespace-nowrap shrink-0" style={{ background: C.navy, borderColor: C.navyLight, color: C.text }}>
               <span className="w-5 h-5 rounded text-xs font-bold flex items-center justify-center" style={{ background: C.primary }}>T</span>
               <span className="leading-none max-w-[150px] truncate" style={{ color: C.text }}>{smsAccount.org}</span>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +189,11 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
             )}
           </div>
 
-        <button onClick={onNotifClick} className="relative w-10 h-10 rounded-lg flex items-center justify-center border flex-shrink-0" style={{ background: C.navy, borderColor: C.navyLight }}>
+        <button
+          onClick={onNotifClick}
+          aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} non lues` : "Notifications"}
+          aria-expanded={notifOpen}
+          className="relative w-10 h-10 rounded-lg flex items-center justify-center border flex-shrink-0" style={{ background: C.navy, borderColor: C.navyLight }}>
           <svg className="w-5 h-5" fill="none" stroke={C.textMuted} viewBox="0 0 24 24">
             <path d="M15 17H9m6 0a3 3 0 01-6 0m6 0h3.17A2 2 0 0020 15V9a7 7 0 00-14 0v6a2 2 0 001.83 2H9" strokeWidth="2" strokeLinecap="round" />
           </svg>
@@ -194,7 +205,11 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
           )}
         </button>
 
-        <button onClick={onUserMenu} className="flex items-center gap-2 px-2 h-10 rounded-lg border whitespace-nowrap flex-shrink-0" style={{ background: C.navy, borderColor: C.navyLight }}>
+        <button
+          onClick={onUserMenu}
+          aria-label="Ouvrir le menu du profil"
+          aria-expanded={userMenuOpen}
+          className="flex items-center gap-2 px-2 h-10 rounded-lg border whitespace-nowrap flex-shrink-0" style={{ background: C.navy, borderColor: C.navyLight }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs" style={{ background: C.primary, color: "white" }}>AD</div>
           <div className="hidden xl:block text-left leading-none">
             <div className="text-xs font-semibold" style={{ color: C.text }}>Administrateur</div>
