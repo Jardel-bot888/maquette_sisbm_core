@@ -42,6 +42,13 @@
   --sisbm-hover: rgba(255, 255, 255, 0.05);
   --sisbm-soft: #16273D;
   --sisbm-switchOff: #334155;
+  /* Chrome latéral : identique en clair et en sombre (sidebar bleu nuit) */
+  --sisbm-sideBg: #0D233C;
+  --sisbm-sideBgAlt: #071B2D;
+  --sisbm-sideBorder: #183B5E;
+  --sisbm-sideText: #F8FAFC;
+  --sisbm-sideTextMuted: #94A3B8;
+  --sisbm-sideAccent: #1A6BBA;
   color-scheme: dark;
 }
 

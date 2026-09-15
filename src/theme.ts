@@ -64,6 +64,15 @@ const DARK_VARS: VarMap = {
   hover: "rgba(255,255,255,0.05)",
   soft: "#16273D",
   switchOff: "#334155",
+  // ── Chrome de la barre latérale : valeurs volontairement IDENTIQUES dans les
+  //    deux thèmes — la sidebar garde son bleu nuit (identité de marque SISBM)
+  //    même en mode clair, comme la sidebar d'un dashboard SaaS classique.
+  sideBg: "#0D233C",
+  sideBgAlt: "#071B2D",
+  sideBorder: "#183B5E",
+  sideText: "#F8FAFC",
+  sideTextMuted: "#94A3B8",
+  sideAccent: "#1A6BBA",
 };
 
 // ─── Valeurs claires ─────────────────────────────────────────────────────────
@@ -87,6 +96,13 @@ const LIGHT_VARS: VarMap = {
   hover: "rgba(15,76,138,0.06)",
   soft: "#E8F0FE",
   switchOff: "#CBD5E1",
+  // Chrome latéral inchangé : la sidebar reste bleu nuit en mode clair.
+  sideBg: "#0D233C",
+  sideBgAlt: "#071B2D",
+  sideBorder: "#183B5E",
+  sideText: "#F8FAFC",
+  sideTextMuted: "#94A3B8",
+  sideAccent: "#1A6BBA",
 };
 
 export const themeVars: Record<ThemeName, VarMap> = {
@@ -120,6 +136,13 @@ export const C: ThemeRef = {
   hover: v("hover"),
   soft: v("soft"),
   switchOff: v("switchOff"),
+  // Chrome latéral (bleu nuit dans les deux thèmes)
+  sideBg: v("sideBg"),
+  sideBgAlt: v("sideBgAlt"),
+  sideBorder: v("sideBorder"),
+  sideText: v("sideText"),
+  sideTextMuted: v("sideTextMuted"),
+  sideAccent: v("sideAccent"),
 };
 
 const STORAGE_KEY = "sisbm-theme";

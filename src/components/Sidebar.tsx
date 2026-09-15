@@ -10,18 +10,18 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
   return (
     <aside
       className="flex flex-col h-full border-r transition-all duration-300 shrink-0"
-      style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.navyMid, borderColor: C.border }}
+      style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.sideBg, borderColor: C.sideBorder }}
     >
       {/* Bandeau aligné sur la hauteur de la navbar (h-16) : le bouton reste confiné
           dans la colonne latérale et ne peut plus passer par-dessus la zone du logo SISBM. */}
-      <div className="flex items-center justify-end h-16 px-2 border-b shrink-0" style={{ borderColor: C.border }}>
+      <div className="flex items-center justify-end h-16 px-2 border-b shrink-0" style={{ borderColor: C.sideBorder }}>
         <button
           onClick={() => setCollapsed(!collapsed)}
           aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
           aria-expanded={!collapsed}
           title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
           className="w-7 h-7 rounded-lg flex items-center justify-center border shrink-0"
-          style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}
+          style={{ background: C.sideBgAlt, borderColor: C.sideBorder, color: C.sideTextMuted }}
         >
           {collapsed ? "›" : "‹"}
         </button>
@@ -39,9 +39,9 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
               title={collapsed ? item.label : undefined}
               className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm transition-all relative group"
               style={{
-                background: isActive ? va(C.primary, "13%") : "transparent",
-                borderLeft: isActive ? `3px solid ${C.primary}` : "3px solid transparent",
-                color: locked ? C.textMuted : isActive ? C.text : C.textMuted,
+                background: isActive ? va(C.sideAccent, "22%") : "transparent",
+                borderLeft: isActive ? `3px solid ${C.sideAccent}` : "3px solid transparent",
+                color: locked ? C.sideTextMuted : isActive ? C.sideText : C.sideTextMuted,
                 cursor: locked ? "not-allowed" : "pointer",
               }}
             >
@@ -50,16 +50,16 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
               </span>
               {!collapsed && (
                 <>
-                  <span className="flex-1 truncate font-medium" style={{ color: locked ? C.textMuted : isActive ? C.text : C.textMuted }}>
+                  <span className="flex-1 truncate font-medium" style={{ color: locked ? C.sideTextMuted : isActive ? C.sideText : C.sideTextMuted }}>
                     {item.label}
                   </span>
                   {item.badge ? (
-                    <span className="text-xs rounded-full px-1.5 font-bold" style={{ background: C.red, color: "white", minWidth: 18, textAlign: "center" }}>
+                    <span className="text-xs rounded-full px-1.5 font-bold" style={{ background: C.red, color: "#FFFFFF", minWidth: 18, textAlign: "center" }}>
                       {item.badge}
                     </span>
                   ) : null}
                   {locked && (
-                    <span className="text-[10px] rounded px-1" style={{ background: va(C.primary, "20%"), color: C.text }}>
+                    <span className="text-[10px] rounded px-1" style={{ background: va(C.sideAccent, "35%"), color: C.sideText }}>
                       {item.tier === "premium" ? "Premium" : "Gold"}
                     </span>
                   )}
@@ -72,21 +72,21 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
 
       {/* Footer brand */}
       {!collapsed && (
-        <div className="px-4 py-4 border-t" style={{ borderColor: C.border }}>
+        <div className="px-4 py-4 border-t" style={{ borderColor: C.sideBorder }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: C.navy, borderColor: C.border }}>
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: C.sideBgAlt, borderColor: C.sideBorder }}>
               <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
             </div>
             <div className="min-w-0">
-              <div className="font-black text-sm tracking-tight" style={{ color: C.text }}>SISBM CORE</div>
-              <div className="text-[11px] truncate" style={{ color: C.textMuted }}>Supervision de flotte</div>
+              <div className="font-black text-sm tracking-tight" style={{ color: C.sideText }}>SISBM CORE</div>
+              <div className="text-[11px] truncate" style={{ color: C.sideTextMuted }}>Supervision de flotte</div>
             </div>
           </div>
-          <div className="mt-3 space-y-0.5 text-[11px] leading-tight" style={{ color: C.textMuted }}>
+          <div className="mt-3 space-y-0.5 text-[11px] leading-tight" style={{ color: C.sideTextMuted }}>
             <div>Sécuriser · Construire</div>
             <div>Connecter · Former</div>
           </div>
-          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: va(C.primary, "13%"), borderColor: C.primary, color: C.primary }}>
+          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: va(C.sideAccent, "22%"), borderColor: C.sideAccent, color: C.sideText }}>
             Plan {tier === "premium" ? "Premium" : tier === "gold" ? "Gold" : "Standard"} · Actif
           </div>
         </div>
