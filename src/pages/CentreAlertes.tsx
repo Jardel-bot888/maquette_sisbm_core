@@ -1,8 +1,7 @@
 // ─── Module Centre d'alertes SMS ──────────────────────────────────────────────
 import { useState } from "react";
 import { BellRing, Send, CheckCircle2, AlertTriangle } from "lucide-react";
-import { C, alertLevelConfig } from "@/theme";
-import { smsAlerts } from "@/data/mock";
+import { C, alertLevelConfig, va } from "@/theme";import { smsAlerts } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, CountBadge } from "@/ui";
 
 const LEVELS = [
@@ -39,7 +38,7 @@ export default function CentreAlertes() {
               onClick={() => setLevel(l.key)}
               aria-pressed={level === l.key}
               className="flex items-center gap-2 px-3 py-2 rounded-xl border text-xs font-semibold transition-all"
-              style={{ background: level === l.key ? l.color + "22" : C.cardBg, borderColor: level === l.key ? l.color : C.border, color: level === l.key ? l.color : C.textMuted }}
+              style={{ background: level === l.key ? va(l.color, "13%") : C.cardBg, borderColor: level === l.key ? l.color : C.border, color: level === l.key ? l.color : C.textMuted }}
             >
               {l.label} <CountBadge n={count} color={l.color} />
             </button>
@@ -70,7 +69,7 @@ export default function CentreAlertes() {
               {rows.map((a) => {
                 const lvl = alertLevelConfig[a.level as keyof typeof alertLevelConfig];
                 return (
-                  <tr key={a.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                  <tr key={a.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                     <Td><span className="font-mono text-[10px]" style={{ color: C.textMuted }}>{a.id}</span></Td>
                     <Td>
                       <span className="inline-flex items-center gap-1.5">
@@ -104,7 +103,7 @@ export default function CentreAlertes() {
           { label: "Échecs / réessais", value: "3", icon: AlertTriangle, color: C.red },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>

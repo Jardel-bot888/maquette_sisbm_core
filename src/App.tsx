@@ -3,7 +3,7 @@
 // overlays globaux (popover véhicule, immobilisation, notifications, menu profil).
 
 import { useState, Suspense, lazy } from "react";
-import { C, tierOrder } from "@/theme";
+import { C, tierOrder, useTheme } from "@/theme";
 import { navItems, notifications, userTier, type Vehicle } from "@/data/mock";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
@@ -34,6 +34,7 @@ export default function App() {
   const [tier, setTier] = useState<string>(userTier); // formule simulée — modifiable depuis le menu profil (démo)
   const [showNotif, setShowNotif] = useState(false);
   const [readIds, setReadIds] = useState<Record<string, boolean>>({});
+  const { theme, toggleTheme } = useTheme(); // sombre / clair — persisté (localStorage)
 
   const unreadCount = notifications.filter((n) => !readIds[n.id]).length;
 
@@ -102,6 +103,8 @@ export default function App() {
           unreadCount={unreadCount}
           notifOpen={showNotif}
           userMenuOpen={showUserMenu}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
 
         <div className="flex-1 overflow-y-auto p-4" style={{ background: C.bg }}>

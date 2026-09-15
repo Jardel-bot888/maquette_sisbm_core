@@ -3,8 +3,7 @@
 // envoi de la commande SMS RELAY,1# au traceur.
 
 import { useState } from "react";
-import { C } from "@/theme";
-import type { Vehicle } from "@/data/mock";
+import { C, va } from "@/theme";import type { Vehicle } from "@/data/mock";
 
 export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Vehicle; onClose: () => void }) {
   const [reason, setReason] = useState("");
@@ -23,7 +22,7 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
   if (step === "success") {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.8)" }}>
-        <div className="rounded-2xl border p-8 text-center" style={{ background: C.navyMid, borderColor: C.green + "66", width: 360 }}>
+        <div className="rounded-2xl border p-8 text-center" style={{ background: C.navyMid, borderColor: va(C.green, "40%"), width: 360 }}>
           <div className="text-5xl mb-4">✅</div>
           <h3 className="font-bold text-lg mb-2" style={{ color: C.text }}>Commande envoyée</h3>
           <p className="text-sm mb-4" style={{ color: C.textMuted }}>
@@ -37,11 +36,11 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.8)" }} onClick={onClose}>
-      <div className="rounded-2xl border shadow-2xl w-[500px]" style={{ background: C.navyMid, borderColor: C.red + "44" }} onClick={(e) => e.stopPropagation()}>
+      <div className="rounded-2xl border shadow-2xl w-[500px]" style={{ background: C.navyMid, borderColor: va(C.red, "27%") }} onClick={(e) => e.stopPropagation()}>
         {/* Title bar */}
         <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: C.border }}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: "#7F1D1D" }}>🔌</div>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: va(C.red, "45%") }}>🔌</div>
             <div>
               <h3 className="font-bold text-sm" style={{ color: C.text }}>Commande d'Immobilisation Sécurisée</h3>
               <p className="text-xs" style={{ color: C.textMuted }}>Micodus MV730 / Relais S20 · {vehicle.plate}</p>
@@ -52,12 +51,12 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
 
         <div className="px-6 py-4 space-y-4">
           {/* Warning banner */}
-          <div className="rounded-xl px-4 py-3 border" style={{ background: "#431407", borderColor: C.orange + "66" }}>
+          <div className="rounded-xl px-4 py-3 border" style={{ background: va(C.orange, "13%"), borderColor: va(C.orange, "40%") }}>
             <div className="flex items-start gap-2">
               <span className="text-base mt-0.5">⚠️</span>
               <div>
                 <p className="text-xs font-bold mb-1" style={{ color: C.orange }}>AVERTISSEMENT DE SÉCURITÉ</p>
-                <p className="text-xs leading-relaxed" style={{ color: "#FCD34D" }}>
+                <p className="text-xs leading-relaxed" style={{ color: C.orange }}>
                   Cette action coupe l'alimentation moteur via relais physique. Elle ne doit être exécutée qu'avec l'accord du responsable de flotte et en conformité avec le cadre légal ivoirien.
                 </p>
               </div>
@@ -69,7 +68,7 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
             <p className="text-xs font-semibold mb-2" style={{ color: C.textMuted }}>Vérification des 4 verrous de sécurité</p>
             <div className="space-y-2">
               {checks.map((c, i) => (
-                <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-lg" style={{ background: C.navy, border: `1px solid ${c.ok ? C.green + "33" : C.red + "33"}` }}>
+                <div key={i} className="flex items-center gap-3 px-3 py-2 rounded-lg" style={{ background: C.navy, border: `1px solid ${c.ok ? va(C.green, "20%") : va(C.red, "20%")}` }}>
                   <span className="text-sm">{c.ok ? "✅" : "❌"}</span>
                   <span className="text-xs" style={{ color: c.ok ? C.green : C.red }}>{c.label}</span>
                   <span className="ml-auto text-xs font-semibold" style={{ color: c.ok ? C.green : C.red }}>{c.ok ? "OK" : "BLOQUANT"}</span>
@@ -124,7 +123,7 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
             onClick={() => canExecute && setStep("success")}
             className="flex-1 py-2.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
             style={{
-              background: canExecute ? C.red : "#374151",
+              background: canExecute ? C.red : C.switchOff,
               color: canExecute ? "white" : C.gray,
               cursor: canExecute ? "pointer" : "not-allowed",
             }}

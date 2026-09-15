@@ -1,7 +1,6 @@
 // ─── Module Conducteurs ───────────────────────────────────────────────────────
 import { Users, Award, IdCard, AlertTriangle } from "lucide-react";
-import { C } from "@/theme";
-import { drivers } from "@/data/mock";
+import { C, va } from "@/theme";import { drivers } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, Initial } from "@/ui";
 
 export default function Conducteurs() {
@@ -22,7 +21,7 @@ export default function Conducteurs() {
           { label: "Risque élevé", value: drivers.filter((d) => d.rating < 4).length + " conducteur(s)", icon: AlertTriangle, color: C.red },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -48,7 +47,7 @@ export default function Conducteurs() {
                 const initials = d.name.split(" ").map((n) => n[0]).slice(0, 2).join("");
                 const licenseOk = !d.license.includes("Suspendu") && !d.license.includes("Expire");
                 return (
-                  <tr key={d.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                  <tr key={d.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                     <Td>
                       <div className="flex items-center gap-2.5">
                         <Initial text={initials} color={d.rating < 4 ? C.red : C.primary} size={8} />

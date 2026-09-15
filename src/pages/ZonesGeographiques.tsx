@@ -1,8 +1,7 @@
 // ─── Module Zones géographiques (géofencing) ──────────────────────────────────
 import { useState } from "react";
 import { Map, Plus, ShieldCheck, AlertTriangle } from "lucide-react";
-import { C } from "@/theme";
-import { zones } from "@/data/mock";
+import { C, va } from "@/theme";import { zones } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Toggle, Th, Td } from "@/ui";
 
 export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label: string) => void }) {
@@ -25,7 +24,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
           { label: "Alertes aujourd'hui", value: list.reduce((s, z) => s + z.alertsToday, 0), icon: Map, color: C.orange },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -42,16 +41,16 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
           <div key={z.id} className="rounded-2xl border p-4 space-y-3" style={{ background: C.cardBg, borderColor: C.border }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: z.color + "22", color: z.color }}>{z.id}</span>
+                <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: va(z.color, "13%"), color: z.color }}>{z.id}</span>
                 <span className="text-sm font-bold" style={{ color: C.text }}>{z.name}</span>
               </div>
               <Toggle on={z.active} onChange={() => toggle(z.id)} label={`Activer la zone ${z.name}`} />
             </div>
             <div className="rounded-xl border overflow-hidden" style={{ background: C.navy, borderColor: C.border, height: 110, position: "relative" }}>
               <svg viewBox="0 0 640 220" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
-                <polygon points={z.poly} fill={z.color + "22"} stroke={z.color} strokeWidth={2} strokeDasharray={z.active ? "0" : "6 4"} />
+                <polygon points={z.poly} fill={va(z.color, "13%")} stroke={z.color} strokeWidth={2} strokeDasharray={z.active ? "0" : "6 4"} />
               </svg>
-              <div className="absolute top-2 left-2 rounded-lg px-2 py-1" style={{ background: C.navyMid + "cc", border: "1px solid " + C.border }}>
+              <div className="absolute top-2 left-2 rounded-lg px-2 py-1" style={{ background: va(C.navyMid, "80%"), border: "1px solid " + C.border }}>
                 <span className="text-[10px]" style={{ color: C.textMuted }}>{z.commune}</span>
               </div>
             </div>
@@ -78,7 +77,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
             </thead>
             <tbody>
               {list.map((z) => (
-                <tr key={z.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr key={z.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                   <Td><span className="font-semibold" style={{ color: C.text }}>{z.name}</span></Td>
                   <Td style={{ color: C.textMuted }}>{z.commune}</Td>
                   <Td><StatusPill color={z.type === "Interdite" ? C.red : C.green} label={z.type} /></Td>

@@ -4,10 +4,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import logoUrl from "../../image/logo.png";
-import { C } from "@/theme";
+import { C, va } from "@/theme";
 import { allVehicles, zones, smsAccount } from "@/data/mock";
 import { BlinkDot, LiveClock } from "@/ui";
-import { CarFront, Map, User } from "lucide-react";
+import { CarFront, Map, User, Sun, Moon } from "lucide-react";
 
 type HeaderProps = {
   onNotifClick: () => void;
@@ -16,13 +16,15 @@ type HeaderProps = {
   unreadCount: number;
   notifOpen?: boolean;
   userMenuOpen?: boolean;
+  theme?: "dark" | "light";
+  onToggleTheme?: () => void;
 };
 
 type SearchHit = { kind: "vehicle"; label: string; sub: string } | { kind: "zone"; label: string; sub: string } | { kind: "driver"; label: string; sub: string };
 
 type FixedRect = { left: number; top: number; width: number };
 
-export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCount, notifOpen = false, userMenuOpen = false }: HeaderProps) {
+export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCount, notifOpen = false, userMenuOpen = false, theme = "dark", onToggleTheme }: HeaderProps) {
   const [showOrgMenu, setShowOrgMenu] = useState(false);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -98,12 +100,12 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
               le badge ne peut plus chevaucher le logo et le sidebar ne peut plus déborder dessus) ── */}
         <div className="flex items-center gap-4 shrink-0 min-w-[110px] md:min-w-[180px]">
           <div className="flex items-center gap-2.5 shrink-0">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border shrink-0" style={{ background: "#0B1320", borderColor: C.border }}>
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border shrink-0" style={{ background: C.navy, borderColor: C.border }}>
               <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
             </div>
             <span className="font-black text-xl leading-none tracking-tight whitespace-nowrap" style={{ color: C.text }}>SISBM</span>
           </div>
-          <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold leading-none whitespace-nowrap shrink-0" style={{ borderColor: C.green, color: C.green, background: "#052E16" }}>
+          <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold leading-none whitespace-nowrap shrink-0" style={{ borderColor: C.green, color: C.green, background: va(C.green, "13%") }}>
             <BlinkDot color={C.green} />
             Live · Serveur OK
           </div>
@@ -133,7 +135,13 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
                 <p className="px-4 py-3 text-xs" style={{ color: C.textMuted }}>Aucun résultat pour « {search} »</p>
               )}
               {hits.slice(0, 8).map((h, i) => (
-                <button key={i} onMouseDown={() => goTo(h.kind)} className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-white/5">
+                <button
+                  key={i}
+                  onMouseDown={() => goTo(h.kind)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 text-left"
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                >
                   <span className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: C.navyLight }}>
                     {h.kind === "zone" ? <Map className="h-3.5 w-3.5" style={{ color: C.orange }} /> : h.kind === "driver" ? <User className="h-3.5 w-3.5" style={{ color: C.primary }} /> : <CarFront className="h-3.5 w-3.5" style={{ color: C.green }} />}
                   </span>
@@ -157,10 +165,10 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
           <div className="hidden md:flex xl:hidden shrink-0"><LiveClock compact /></div>
           <div className="hidden xl:flex shrink-0"><LiveClock /></div>
 
-          <div className="hidden 2xl:flex items-center gap-2 px-3 h-10 rounded-lg border whitespace-nowrap shrink-0" style={{ background: "#1C1917", borderColor: "#44403C" }}>
+          <div className="hidden 2xl:flex items-center gap-2 px-3 h-10 rounded-lg border whitespace-nowrap shrink-0" style={{ background: C.soft, borderColor: C.border }}>
             <span className="text-xs leading-none" style={{ color: C.textMuted }}>SMS restant</span>
-            <span className="font-bold text-sm leading-none" style={{ color: "#FCD34D" }}>{smsAccount.credits}</span>
-            <button className="text-xs px-2 py-1 rounded font-semibold leading-none" style={{ background: "#92400E", color: "#FCD34D" }}>
+            <span className="font-bold text-sm leading-none" style={{ color: C.orange }}>{smsAccount.credits}</span>
+            <button className="text-xs px-2 py-1 rounded font-semibold leading-none" style={{ background: va(C.orange, "40%"), color: C.text }}>
               Recharger
             </button>
           </div>
@@ -181,13 +189,25 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
             {showOrgMenu && orgDrop && (
               <div className="fixed mt-1 rounded-xl border shadow-2xl py-1 z-[45]" style={{ left: orgDrop.left, top: orgDrop.top, width: orgDrop.width, background: C.navyMid, borderColor: C.navyLight }}>
                 {["Transports Kouamé", "Logistique Abidjan", "Fleet CI SAS"].map((org) => (
-                  <button key={org} onClick={() => setShowOrgMenu(false)} className="w-full text-left px-4 py-2 text-sm hover:bg-[#334155]" style={{ color: C.text }}>
+                  <button key={org} onClick={() => setShowOrgMenu(false)} className="w-full text-left px-4 py-2 text-sm" onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")} onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")} style={{ color: C.text }}>
                     {org}
                   </button>
                 ))}
               </div>
             )}
           </div>
+
+        {/* Basculeur sombre / clair — avant la cloche, même gabarit h-10 */}
+        <button
+          type="button"
+          onClick={onToggleTheme}
+          aria-label={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+          aria-pressed={theme === "light"}
+          title={theme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+          className="w-10 h-10 rounded-lg flex items-center justify-center border flex-shrink-0" style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}
+        >
+          {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
 
         <button
           onClick={onNotifClick}

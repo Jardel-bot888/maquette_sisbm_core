@@ -3,8 +3,7 @@
 // (obj. CDC : "poser une base de composants réutilisables").
 
 import { useState, useEffect, type ReactNode } from "react";
-import { C } from "@/theme";
-
+import { C, va } from "@/theme";
 // ─── Horloge live ─────────────────────────────────────────────────────────────
 export function LiveClock({ compact = false }: { compact?: boolean }) {
   const [time, setTime] = useState(new Date());
@@ -83,8 +82,8 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
   const styles: Record<string, React.CSSProperties> = {
     primary: { background: C.primary, color: "white", border: "1px solid transparent" },
     secondary: { background: C.navy, color: C.textDim, border: `1px solid ${C.border}` },
-    danger: { background: "#7F1D1D", color: "#FCA5A5", border: `1px solid ${C.red}44` },
-    gold: { background: "#92400E", color: "#FCD34D", border: "1px solid transparent" },
+    danger: { background: va(C.red, "45%"), color: C.white, border: `1px solid ${va(C.red, "27%")}` },
+    gold: { background: va(C.orange, "45%"), color: C.white, border: "1px solid transparent" },
   };
   return (
     <button
@@ -101,11 +100,11 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
 }
 
 // ─── Pilule de statut ─────────────────────────────────────────────────────────
-export function StatusPill({ color, label, soft = "#22" }: { color: string; label: string; soft?: string }) {
+export function StatusPill({ color, label, soft = "13%" }: { color: string; label: string; soft?: string }) {
   return (
     <span
       className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[11px] font-semibold leading-none whitespace-nowrap"
-      style={{ background: color + soft, color, border: `1px solid ${color}44` }}
+      style={{ background: va(color, soft), color, border: `1px solid ${va(color, "27%")}` }}
     >
       {label}
     </span>
@@ -140,7 +139,7 @@ export function Toggle({ on, onChange, disabled, label }: {
       aria-label={label}
       onClick={() => !disabled && onChange?.(!on)}
       className="relative rounded-full transition-colors flex-shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2"
-      style={{ background: on ? C.primary : "#334155", width: 40, height: 22, opacity: disabled ? 0.4 : 1, cursor: disabled ? "not-allowed" : "pointer" }}
+      style={{ background: on ? C.primary : C.switchOff, width: 40, height: 22, opacity: disabled ? 0.4 : 1, cursor: disabled ? "not-allowed" : "pointer" }}
     >
       <span className="absolute top-0.5 rounded-full bg-white transition-all" style={{ left: on ? 20 : 4, width: 18, height: 18 }} />
     </button>
@@ -160,10 +159,10 @@ export function Initial({ text, color = C.primary, size = 9 }: { text: string; c
 export function LockBanner({ tier }: { tier: "gold" | "premium" }) {
   const premium = tier === "premium";
   return (
-    <div className="rounded-xl px-4 py-3 border flex items-center gap-3" style={{ background: premium ? "#2E1065" : "#431407", borderColor: premium ? "#6D28D9" : "#92400E" }}>
+    <div className="rounded-xl px-4 py-3 border flex items-center gap-3" style={{ background: va(C.primary, "13%"), borderColor: va(C.primary, "40%") }}>
       <span className="text-lg">🔒</span>
       <div className="flex-1">
-        <p className="text-xs font-bold" style={{ color: premium ? "#C4B5FD" : "#FCD34D" }}>
+        <p className="text-xs font-bold" style={{ color: C.primary }}>
           Module {premium ? "Premium" : "Gold"}
         </p>
         <p className="text-xs" style={{ color: C.textMuted }}>

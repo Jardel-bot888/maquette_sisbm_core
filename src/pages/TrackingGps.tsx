@@ -1,8 +1,7 @@
 // ─── Module Tracking GPS ──────────────────────────────────────────────────────
 import { useState } from "react";
 import { CarFront, Satellite, History, Clock3 } from "lucide-react";
-import { C, statusConfig } from "@/theme";
-import { vehicles, allVehicles, type Vehicle } from "@/data/mock";
+import { C, statusConfig, va } from "@/theme";import { vehicles, allVehicles, type Vehicle } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, LiveClock, BlinkDot } from "@/ui";
 import AbidjanMap from "@/components/AbidjanMap";
 
@@ -44,7 +43,7 @@ export default function TrackingGps({ onVehicleClick }: { onVehicleClick: (v: Ve
                   aria-pressed={active}
                   aria-label={`Sélectionner le véhicule ${v.plate}`}
                   className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl border transition-all text-left"
-                  style={{ background: active ? C.primary + "22" : C.navy, borderColor: active ? C.primary : C.border }}
+                  style={{ background: active ? va(C.primary, "13%") : C.navy, borderColor: active ? C.primary : C.border }}
                 >
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: sc.color }} />
                   <span className="min-w-0 flex-1">

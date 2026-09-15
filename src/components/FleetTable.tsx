@@ -1,7 +1,6 @@
 // ─── Tableau « Flux des véhicules » (dernières 24h) ───────────────────────────
 import { useState } from "react";
-import { C, statusConfig } from "@/theme";
-import { vehicles, type Vehicle } from "@/data/mock";
+import { C, statusConfig, va } from "@/theme";import { vehicles, type Vehicle } from "@/data/mock";
 
 type Props = {
   onImmobilize: (v: Vehicle) => void;
@@ -21,7 +20,7 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
   const rows = filter === "all" ? vehicles : vehicles.filter((v) => v.status === filter);
 
   return (
-    <div className="rounded-2xl border p-4" style={{ background: "#16273d", borderColor: "#24364f" }}>
+    <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.border }}>
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-baseline gap-2">
           <span className="font-bold text-[16px]" style={{ color: C.text }}>Flux des véhicules en direct</span>
@@ -35,9 +34,9 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
               aria-pressed={filter === f.key}
               className="text-xs px-2.5 py-1.5 rounded-lg font-medium transition-all"
               style={{
-                background: filter === f.key ? "#1f2d3d" : "transparent",
+                background: filter === f.key ? C.soft : "transparent",
                 color: filter === f.key ? C.text : C.textMuted,
-                border: `1px solid ${filter === f.key ? "#3a4c63" : C.border}`,
+                border: `1px solid ${filter === f.key ? C.navyLight : C.border}`,
               }}
             >
               {f.label}
@@ -61,8 +60,10 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
               return (
                 <tr
                   key={i}
-                  className="cursor-pointer transition-colors hover:bg-white/5"
-                  style={{ borderBottom: `1px solid ${C.border + "55"}` }}
+                  className="cursor-pointer transition-colors"
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}
                   onClick={() => onSelect(v)}
                 >
                   <td className="py-3 pr-3 align-middle">
@@ -77,7 +78,7 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
                   <td className="py-3 pr-3 align-middle" style={{ color: C.textDim }}>{v.driver}</td>
                   <td className="py-3 pr-3 align-middle" style={{ color: C.textMuted }}>{v.pos}</td>
                   <td className="py-3 pr-3 align-middle">
-                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[11px] font-semibold leading-none" style={{ background: sc.color + "22", color: sc.color, border: `1px solid ${sc.color}44` }}>
+                    <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[11px] font-semibold leading-none" style={{ background: va(sc.color, "13%"), color: sc.color, border: `1px solid ${va(sc.color, "27%")}` }}>
                       {sc.label}
                     </span>
                   </td>
@@ -96,7 +97,7 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
                       <button
                         onClick={(e) => { e.stopPropagation(); onImmobilize(v); }}
                         className="px-2 py-1 rounded-lg text-xs font-semibold border leading-none"
-                        style={{ background: "#7F1D1D", color: "#FCA5A5", borderColor: C.red + "44" }}
+                        style={{ background: va(C.red, "45%"), color: C.white, borderColor: va(C.red, "27%") }}
                       >
                         🔌 Couper
                       </button>

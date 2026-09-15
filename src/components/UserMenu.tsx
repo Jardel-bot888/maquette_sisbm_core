@@ -1,6 +1,5 @@
 // ─── Menu utilisateur déroulant ───────────────────────────────────────────────
-import { C, tierOrder } from "@/theme";
-
+import { C, tierOrder, va } from "@/theme";
 const TIERS = [
   { key: "standard", label: "Standard" },
   { key: "gold", label: "Gold" },
@@ -40,7 +39,7 @@ export default function UserMenu({ onClose, onNavigate, tier, onTierChange }: {
                   aria-pressed={active}
                   className="px-2 py-1.5 rounded-lg text-xs font-semibold border transition-all"
                   style={{
-                    background: active ? C.primary + "33" : "transparent",
+                    background: active ? va(C.primary, "20%") : "transparent",
                     borderColor: active ? C.primary : C.navyLight,
                     color: active ? C.text : C.textMuted,
                   }}
@@ -68,7 +67,9 @@ export default function UserMenu({ onClose, onNavigate, tier, onTierChange }: {
               onClose();
               if (item.target) onNavigate(item.target);
             }}
-            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
+            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm"
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             style={{ color: C.textDim }}
           >
             <span>{item.icon}</span>
@@ -76,7 +77,7 @@ export default function UserMenu({ onClose, onNavigate, tier, onTierChange }: {
           </button>
         ))}
         <div className="border-t my-1" style={{ borderColor: C.border }} />
-        <button onClick={onClose} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5" style={{ color: C.red }}>
+        <button onClick={onClose} className="w-full flex items-center gap-3 px-4 py-2.5 text-sm" onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")} onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")} style={{ color: C.red }}>
           <span>🚪</span> Déconnexion
         </button>
       </div>

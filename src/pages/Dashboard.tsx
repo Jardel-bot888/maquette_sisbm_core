@@ -1,8 +1,7 @@
 // ─── Page Tableau de bord ─────────────────────────────────────────────────────
 import { CarFront, MapPinned, CircleDashed, Gauge, Fuel, Map, Clock3, ShieldCheck, FileText } from "lucide-react";
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { C } from "@/theme";
-import { kpis, quickActions, fleetPie, incidentBar, type Vehicle } from "@/data/mock";
+import { C, va } from "@/theme";import { kpis, quickActions, fleetPie, incidentBar, type Vehicle } from "@/data/mock";
 import { BlinkDot } from "@/ui";
 import AbidjanMap from "@/components/AbidjanMap";
 import AlertsPanel from "@/components/AlertsPanel";
@@ -26,7 +25,7 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
           const Icon = kpiIconMap[kpi.icon] ?? CarFront;
           return (
             <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all hover:border-blue-700" style={{ background: C.cardBg, borderColor: C.border, minHeight: 96 }}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border flex-shrink-0" style={{ background: "rgba(15, 23, 42, 0.9)", borderColor: "rgba(148, 163, 184, 0.2)" }}>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border flex-shrink-0" style={{ background: C.navy, borderColor: C.border }}>
                 <Icon className="h-4 w-4" style={{ color: C.text }} />
               </div>
               <div className="min-w-0 flex-1 leading-none">
@@ -46,7 +45,7 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
             <div className="flex items-center gap-2">
               <BlinkDot color={C.green} />
               <span className="font-bold text-sm" style={{ color: C.text }}>Suivi en temps réel</span>
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: C.green + "22", color: C.green }}>28 véhicules actifs</span>
+              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: va(C.green, "13%"), color: C.green }}>28 véhicules actifs</span>
             </div>
             <button onClick={() => onNavigate("Tracking GPS")} className="text-xs px-2 py-1 rounded-lg border" style={{ background: C.navy, borderColor: C.border, color: C.textMuted }}>
               ⛶ Plein écran
@@ -87,7 +86,7 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
         <FleetTable onImmobilize={onImmobilize} onSelect={onVehicleClick} onNavigate={onNavigate} />
 
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border p-4" style={{ background: "#16273d", borderColor: "#24364f" }}>
+          <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.border }}>
             <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>État de la flotte</span>
             <div className="flex items-center gap-5 flex-wrap">
               <div className="relative flex-shrink-0">
@@ -114,13 +113,13 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
             </div>
           </div>
 
-          <div className="rounded-2xl border p-4 flex-1" style={{ background: "#16273d", borderColor: "#24364f" }}>
+          <div className="rounded-2xl border p-4 flex-1" style={{ background: C.soft, borderColor: C.border }}>
             <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>Évolution des incidents (7j)</span>
             <ResponsiveContainer width="100%" height={155}>
               <BarChart data={incidentBar} barSize={12} barGap={6}>
                 <XAxis dataKey="date" tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} width={18} />
-                <Tooltip contentStyle={{ background: C.navyMid, border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11, color: C.text }} cursor={{ fill: "#ffffff08" }} />
+                <Tooltip contentStyle={{ background: C.navyMid, border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11, color: C.text }} cursor={{ fill: va(C.primary, "6%") }} />
                 <Legend wrapperStyle={{ fontSize: 10, color: C.textMuted, paddingTop: 8 }} />
                 <Bar dataKey="alertes" name="Alertes" fill={C.primary} radius={[4, 4, 0, 0]} />
                 <Bar dataKey="incidents" name="Incidents" fill={C.red} radius={[4, 4, 0, 0]} />

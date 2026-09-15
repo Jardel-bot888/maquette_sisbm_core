@@ -1,7 +1,6 @@
 // ─── Module Supervision SMS & Facturation (Premium) ───────────────────────────
 import { MessageSquareText, TrendingUp, Coins, AlertTriangle } from "lucide-react";
-import { C } from "@/theme";
-import { smsAccount, smsHistory } from "@/data/mock";
+import { C, va } from "@/theme";import { smsAccount, smsHistory } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, LockBanner } from "@/ui";
 
 export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
@@ -17,11 +16,11 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
       {tier !== "premium" && <LockBanner tier="premium" />}
 
       {/* Compteur */}
-      <div className="rounded-2xl border p-5" style={{ background: "#16273d", borderColor: "#24364f" }}>
+      <div className="rounded-2xl border p-5" style={{ background: C.soft, borderColor: C.border }}>
         <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
           <div>
             <p className="text-xs font-semibold" style={{ color: C.textMuted }}>SOLDE RESTANT</p>
-            <p className="text-4xl font-black mt-1" style={{ color: "#FCD34D" }}>{smsAccount.credits}<span className="text-sm font-bold ml-1" style={{ color: C.textMuted }}>SMS</span></p>
+            <p className="text-4xl font-black mt-1" style={{ color: C.orange }}>{smsAccount.credits}<span className="text-sm font-bold ml-1" style={{ color: C.textMuted }}>SMS</span></p>
             <p className="text-xs mt-1" style={{ color: C.textMuted }}>Tarif : {smsAccount.ratePerSms} F CFA / SMS</p>
           </div>
           <div className="min-w-[220px]">
@@ -45,7 +44,7 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
           { label: "Tendance vs mois dernier", value: "+8%", icon: TrendingUp, color: C.orange },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -68,7 +67,7 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
             </thead>
             <tbody>
               {smsHistory.map((s) => (
-                <tr key={s.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr key={s.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                   <Td><span className="font-mono text-[10px]" style={{ color: C.textMuted }}>{s.id}</span></Td>
                   <Td className="font-mono" style={{ color: C.textMuted }}>{s.time}</Td>
                   <Td style={{ color: C.textDim }}>{s.to}</Td>

@@ -1,7 +1,6 @@
 // ─── Panneaux latéraux du dashboard (alertes, incidents, rapports) ────────────
 import { AlertTriangle, RadioTower, Map, BatteryCharging, KeyRound, Activity, CircleDashed } from "lucide-react";
-import { C, alertLevelConfig } from "@/theme";
-import { alerts, incidents, reports } from "@/data/mock";
+import { C, alertLevelConfig, va } from "@/theme";import { alerts, incidents, reports } from "@/data/mock";
 
 const iconMap: Record<string, typeof AlertTriangle> = {
   AlertTriangle, RadioTower, Map, BatteryCharging, KeyRound, Activity, CircleDashed,
@@ -24,8 +23,8 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
             const lvl = alertLevelConfig[a.level as keyof typeof alertLevelConfig];
             const Icon = iconMap[a.icon] ?? AlertTriangle;
             return (
-              <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: lvl.bg, borderColor: lvl.border + "44" }}>
-                <span className="flex-shrink-0 mt-0.5 flex h-7 w-7 items-center justify-center rounded-lg bg-white/5">
+              <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: lvl.bg, borderColor: va(lvl.border, "27%") }}>
+                <span className="flex-shrink-0 mt-0.5 flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: C.soft }}>
                   <Icon className="h-3.5 w-3.5" style={{ color: C.text }} />
                 </span>
                 <div className="flex-1 min-w-0">
@@ -56,8 +55,8 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
           {incidents.map((inc, i) => {
             const Icon = iconMap[inc.icon] ?? Activity;
             return (
-              <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: inc.color + "11", borderColor: inc.color + "33" }}>
-                <span className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-white/5">
+              <div key={i} className="flex items-start gap-2.5 px-3 py-2.5 rounded-xl border" style={{ background: va(inc.color, "7%"), borderColor: va(inc.color, "20%") }}>
+                <span className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: C.soft }}>
                   <Icon className="h-3.5 w-3.5" style={{ color: C.text }} />
                 </span>
                 <div className="flex-1">
@@ -80,7 +79,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
         <div className="space-y-2">
           {reports.map((r, i) => (
             <div key={i} className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: r.type === "PDF" ? "#450A0A" : "#052E16" }}>
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: r.type === "PDF" ? va(C.red, "13%") : va(C.green, "13%") }}>
                 <span className="text-xs font-bold" style={{ color: r.type === "PDF" ? C.red : C.green }}>{r.type === "PDF" ? "P" : "X"}</span>
               </div>
               <div className="flex-1 min-w-0">

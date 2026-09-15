@@ -19,14 +19,57 @@
   --border: #e2e8f0;
 }
 
+/* Thème SISBM CORE — valeurs de repli (rendu sombre = thème par défaut).
+   Elles couvrent l'instant précédant le montage de React (applyTheme() les
+   remplace ensuite par celles du thème choisi) : évite tout flash clair. */
+:root {
+  --sisbm-navy: #071B2D;
+  --sisbm-navyMid: #0D233C;
+  --sisbm-navyLight: #183B5E;
+  --sisbm-primary: #1A6BBA;
+  --sisbm-primaryLight: #3A9AEF;
+  --sisbm-green: #10B981;
+  --sisbm-red: #EF4444;
+  --sisbm-orange: #F59E0B;
+  --sisbm-gray: #64748B;
+  --sisbm-text: #F8FAFC;
+  --sisbm-textMuted: #94A3B8;
+  --sisbm-textDim: #CBD5E1;
+  --sisbm-border: #183B5E;
+  --sisbm-cardBg: #102B46;
+  --sisbm-bg: #071B2D;
+  --sisbm-white: #FFFFFF;
+  --sisbm-hover: rgba(255, 255, 255, 0.05);
+  --sisbm-soft: #16273D;
+  --sisbm-switchOff: #334155;
+  color-scheme: dark;
+}
+
+/* Contrôles natifs (select, input, scrollbars) accordés au thème actif.
+   Les 2 valeurs de surface sont aussi posées ici pour couvrir l'instant qui
+   précède l'application des variables par applyTheme() (script inline sur
+   <html data-theme>), ce qui supprime tout flash au rechargement. */
+html[data-theme='light'] {
+  color-scheme: light;
+  background-color: #f0f4f8;
+}
+html[data-theme='light'] body {
+  background-color: #f0f4f8;
+  color: #1a2332;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--content-bg);
-  color: var(--text-primary);
+  background-color: var(--sisbm-bg);
+  color: var(--sisbm-text);
   margin: 0;
   padding: 0;
 }
@@ -90,7 +133,7 @@ html, body, #root {
 
 /* Focus clavier toujours visible (a11y) : anneau sur les éléments interactifs */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 2px solid var(--sisbm-primary);
   outline-offset: 2px;
 }
 
@@ -103,6 +146,6 @@ html, body, #root {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c1cdd8;
+  background: var(--sisbm-textMuted);
   border-radius: 2px;
 }

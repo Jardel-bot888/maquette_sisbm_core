@@ -1,7 +1,6 @@
 // ─── Module Maintenance préventive ────────────────────────────────────────────
 import { Wrench, AlertTriangle, CheckCircle2, CalendarClock } from "lucide-react";
-import { C } from "@/theme";
-import { maintenance } from "@/data/mock";
+import { C, va } from "@/theme";import { maintenance } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td } from "@/ui";
 
 export default function MaintenancePreventive() {
@@ -21,7 +20,7 @@ export default function MaintenancePreventive() {
           { label: "Flotte à jour", value: `${maintenance.filter((m) => m.status === "OK").length} / ${maintenance.length}`, icon: CheckCircle2, color: C.green },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -44,7 +43,7 @@ export default function MaintenancePreventive() {
             </thead>
             <tbody>
               {maintenance.map((m) => (
-                <tr key={m.plate} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr key={m.plate} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                   <Td>
                     <span className="font-mono font-bold" style={{ color: C.text }}>{m.plate}</span>
                     <p className="text-[11px]" style={{ color: C.textMuted }}>{m.model}</p>

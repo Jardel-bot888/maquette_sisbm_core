@@ -1,8 +1,7 @@
 // ─── Module Rapports & Exports ────────────────────────────────────────────────
 import { useState } from "react";
 import { FileText, Download, Filter, FileSpreadsheet } from "lucide-react";
-import { C } from "@/theme";
-import { allReports } from "@/data/mock";
+import { C, va } from "@/theme";import { allReports } from "@/data/mock";
 import { PageHeader, Btn, Th, Td, StatusPill } from "@/ui";
 
 export default function RapportsExports({ onNavigate }: { onNavigate: (label: string) => void }) {
@@ -25,7 +24,7 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
             onClick={() => setType(f.key)}
             aria-pressed={type === f.key}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all"
-            style={{ background: type === f.key ? C.primary + "22" : C.cardBg, borderColor: type === f.key ? C.primary : C.border, color: type === f.key ? C.primary : C.textMuted }}
+            style={{ background: type === f.key ? va(C.primary, "13%") : C.cardBg, borderColor: type === f.key ? C.primary : C.border, color: type === f.key ? C.primary : C.textMuted }}
           >
             {f.key === "all" ? <Filter className="h-3.5 w-3.5" /> : f.key === "PDF" ? <FileText className="h-3.5 w-3.5" /> : <FileSpreadsheet className="h-3.5 w-3.5" />}
             {f.label}
@@ -45,10 +44,16 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
             </thead>
             <tbody>
               {rows.map((r, i) => (
-                <tr key={i} className="hover:bg-white/5 transition-colors" style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr
+                  key={i}
+                  className="transition-colors"
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--sisbm-hover)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}
+                >
                   <Td>
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: r.type === "PDF" ? "#450A0A" : "#052E16" }}>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: r.type === "PDF" ? va(C.red, "13%") : va(C.green, "13%") }}>
                         {r.type === "PDF" ? <FileText className="h-4 w-4" style={{ color: C.red }} /> : <FileSpreadsheet className="h-4 w-4" style={{ color: C.green }} />}
                       </div>
                       <span className="font-semibold" style={{ color: C.text }}>{r.name}</span>
@@ -69,7 +74,7 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
       </div>
 
       {/* Génération planifiée */}
-      <div className="rounded-2xl border p-4 flex items-center justify-between gap-4 flex-wrap" style={{ background: "#16273d", borderColor: "#24364f" }}>
+      <div className="rounded-2xl border p-4 flex items-center justify-between gap-4 flex-wrap" style={{ background: C.soft, borderColor: C.border }}>
         <div>
           <p className="text-sm font-bold" style={{ color: C.text }}>Rapport automatique hebdomadaire</p>
           <p className="text-xs" style={{ color: C.textMuted }}>Envoyé chaque lundi à 07:00 · Destinataires : direction & SOC · Format PDF + Excel</p>

@@ -4,8 +4,7 @@
 
 import { useMemo, useState } from "react";
 import { CarFront, Minus, Plus, Maximize2 } from "lucide-react";
-import { C, statusConfig } from "@/theme";
-import { vehicles, routes, type Vehicle } from "@/data/mock";
+import { C, statusConfig, va } from "@/theme";import { vehicles, routes, type Vehicle } from "@/data/mock";
 
 const MAP_W = 650;
 const MAP_H = 420;
@@ -38,7 +37,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
         style={layerStyle}
       />
       <div className="absolute inset-0 bg-slate-950/10" />
-      {layer === "dark" && <div className="absolute inset-0" style={{ background: "#071B2D66" }} />}
+      {layer === "dark" && <div className="absolute inset-0" style={{ background: va(C.bg, "40%") }} />}
 
       {/* Overlay mappé sur le référentiel 650×420 */}
       <div className="absolute inset-0 z-10 transition-transform duration-300" style={{ transform: `scale(${zoom})`, transformOrigin: "50% 50%" }}>
@@ -98,9 +97,9 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
                 onClick={() => onVehicleClick(v)}
                 className="relative flex items-center gap-2 rounded-full border shadow-lg"
                 style={{
-                  background: "#0F172A",
+                  background: C.navy,
                   borderColor: isSelected ? C.primaryLight : "rgba(255,255,255,0.7)",
-                  boxShadow: isSelected ? `0 0 0 4px ${C.primary}66` : "0 0 0 3px rgba(15, 23, 42, 0.25)",
+                  boxShadow: isSelected ? `0 0 0 4px ${va(C.primary, "40%")}` : "0 0 0 3px rgba(15, 23, 42, 0.25)",
                   padding: "5px 9px 5px 6px",
                   ...animationStyle,
                 }}
@@ -150,7 +149,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
       </div>
 
       {/* Légende statuts avec compteurs */}
-      <div className="absolute bottom-3 right-3 z-20 rounded-xl border shadow-lg px-3 py-2 text-xs space-y-1.5" style={{ background: C.navyMid + "ee", borderColor: C.border }}>
+      <div className="absolute bottom-3 right-3 z-20 rounded-xl border shadow-lg px-3 py-2 text-xs space-y-1.5" style={{ background: va(C.navyMid, "93%"), borderColor: C.border }}>
         {Object.entries(statusConfig).map(([k, v]) => (
           <div key={k} className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full" style={{ background: v.color }} />
@@ -162,7 +161,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
 
       {/* Échelle cartographique */}
       <div className="absolute bottom-3 left-3 z-20">
-        <div className="rounded-lg border px-2.5 py-1.5" style={{ background: C.navyMid + "ee", borderColor: C.border }}>
+        <div className="rounded-lg border px-2.5 py-1.5" style={{ background: va(C.navyMid, "93%"), borderColor: C.border }}>
           <div className="w-10 h-1.5 border-y border-l" style={{ borderColor: C.textMuted }} />
           <span className="text-[10px]" style={{ color: C.textMuted }}>2 km</span>
         </div>
@@ -170,7 +169,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
 
       {/* Infobulle véhicule sélectionné */}
       {selectedVehicle && routePoints && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 rounded-xl border px-3 py-2 text-xs flex items-center gap-2" style={{ background: C.navyMid + "ee", borderColor: C.primaryLight }}>
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 rounded-xl border px-3 py-2 text-xs flex items-center gap-2" style={{ background: va(C.navyMid, "93%"), borderColor: C.primaryLight }}>
           <span>🛣</span>
           <span className="font-semibold" style={{ color: C.text }}>{selectedVehicle.plate}</span>
           <span style={{ color: C.textMuted }}>— itinéraire simulé · {routePoints.length} points</span>

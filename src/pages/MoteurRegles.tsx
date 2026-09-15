@@ -1,8 +1,7 @@
 // ─── Module Moteur de règles ──────────────────────────────────────────────────
 import { useState } from "react";
 import { ShieldCheck, Zap, Plus } from "lucide-react";
-import { C } from "@/theme";
-import { rules } from "@/data/mock";
+import { C, va } from "@/theme";import { rules } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Toggle } from "@/ui";
 
 export default function MoteurRegles() {
@@ -26,11 +25,11 @@ export default function MoteurRegles() {
 
       <div className="grid gap-3 lg:grid-cols-2">
         {list.map((r) => (
-          <div key={r.id} className="rounded-2xl border p-4 flex flex-col gap-3" style={{ background: C.cardBg, borderColor: r.enabled ? C.border : C.border + "77", opacity: r.enabled ? 1 : 0.55 }}>
+          <div key={r.id} className="rounded-2xl border p-4 flex flex-col gap-3" style={{ background: C.cardBg, borderColor: r.enabled ? C.border : va(C.border, "47%"), opacity: r.enabled ? 1 : 0.55 }}>
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: r.color + "22", color: r.color }}>{r.id}</span>
+                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: va(r.color, "13%"), color: r.color }}>{r.id}</span>
                   <StatusPill color={r.color} label={r.severity} />
                 </div>
                 <p className="text-sm font-bold" style={{ color: C.text }}>{r.name}</p>

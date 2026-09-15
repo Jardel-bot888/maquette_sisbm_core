@@ -1,6 +1,5 @@
 // ─── Panneau de notifications (cloche) ────────────────────────────────────────
-import { C, alertLevelConfig } from "@/theme";
-import { notifications } from "@/data/mock";
+import { C, alertLevelConfig, va } from "@/theme";import { notifications } from "@/data/mock";
 import { CountBadge } from "@/ui";
 import { BellRing } from "lucide-react";
 
@@ -46,8 +45,8 @@ export default function NotificationsPanel({ readIds, onRead, onReadAll, onClose
                 key={n.id}
                 onClick={() => onRead(n.id)}
                 aria-label={isRead ? `Notification lue : ${n.title}` : `Marquer comme lue : ${n.title}`}
-                className="w-full flex items-start gap-3 px-4 py-3 text-left border-b transition-colors hover:bg-white/5"
-                style={{ borderColor: C.border + "55", background: isRead ? "transparent" : "rgba(26,107,186,0.06)" }}
+                className="w-full flex items-start gap-3 px-4 py-3 text-left border-b transition-colors" onMouseEnter={(e) => { if (!readIds[n.id]) return; e.currentTarget.style.background = "var(--sisbm-hover)"; }} onMouseLeave={(e) => { if (!readIds[n.id]) return; e.currentTarget.style.background = "transparent"; }}
+                style={{ borderColor: va(C.border, "33%"), background: isRead ? "transparent" : va(C.primary, "8%") }}
               >
                 <span className="flex-1 min-w-0">
                   <span className="flex items-center gap-2 mb-0.5">

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Shield } from "lucide-react";
 import logoUrl from "../../image/logo.png";
-import { C, tierOrder } from "@/theme";
+import { C, tierOrder, va } from "@/theme";
 import { navItems, userTier } from "@/data/mock";
 
 export default function Sidebar({ active, setActive, tier = userTier }: { active: string; setActive: (s: string) => void; tier?: string }) {
@@ -39,9 +39,9 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
               title={collapsed ? item.label : undefined}
               className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm transition-all relative group"
               style={{
-                background: isActive ? C.primary + "22" : "transparent",
+                background: isActive ? va(C.primary, "13%") : "transparent",
                 borderLeft: isActive ? `3px solid ${C.primary}` : "3px solid transparent",
-                color: locked ? "#475569" : isActive ? C.text : C.textMuted,
+                color: locked ? C.textMuted : isActive ? C.text : C.textMuted,
                 cursor: locked ? "not-allowed" : "pointer",
               }}
             >
@@ -50,7 +50,7 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
               </span>
               {!collapsed && (
                 <>
-                  <span className="flex-1 truncate font-medium" style={{ color: locked ? "#475569" : isActive ? C.text : C.textMuted }}>
+                  <span className="flex-1 truncate font-medium" style={{ color: locked ? C.textMuted : isActive ? C.text : C.textMuted }}>
                     {item.label}
                   </span>
                   {item.badge ? (
@@ -59,7 +59,7 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
                     </span>
                   ) : null}
                   {locked && (
-                    <span className="text-[10px] rounded px-1" style={{ background: item.tier === "premium" ? "#4C1D95" : "#78350F", color: item.tier === "premium" ? "#C4B5FD" : "#FCD34D" }}>
+                    <span className="text-[10px] rounded px-1" style={{ background: va(C.primary, "20%"), color: C.text }}>
                       {item.tier === "premium" ? "Premium" : "Gold"}
                     </span>
                   )}
@@ -74,7 +74,7 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
       {!collapsed && (
         <div className="px-4 py-4 border-t" style={{ borderColor: C.border }}>
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: "#0B1320", borderColor: C.border }}>
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: C.navy, borderColor: C.border }}>
               <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
             </div>
             <div className="min-w-0">
@@ -86,7 +86,7 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
             <div>Sécuriser · Construire</div>
             <div>Connecter · Former</div>
           </div>
-          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: "#102D4A", borderColor: C.primaryLight, color: C.primaryLight }}>
+          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: va(C.primary, "13%"), borderColor: C.primary, color: C.primary }}>
             Plan {tier === "premium" ? "Premium" : tier === "gold" ? "Gold" : "Standard"} · Actif
           </div>
         </div>

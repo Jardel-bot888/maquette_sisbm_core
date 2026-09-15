@@ -1,8 +1,7 @@
 // ─── Module Gestion des incidents ─────────────────────────────────────────────
 import { useState } from "react";
 import { TriangleAlert, ShieldCheck, ClipboardList, ArrowRight } from "lucide-react";
-import { C } from "@/theme";
-import { allIncidents } from "@/data/mock";
+import { C, va } from "@/theme";import { allIncidents } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td } from "@/ui";
 
 export default function GestionIncidents() {
@@ -28,7 +27,7 @@ export default function GestionIncidents() {
           { label: "Audit SISBM", value: list.filter((i) => i.status === "Audit SISBM").length, icon: ClipboardList, color: C.primary },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -65,7 +64,7 @@ export default function GestionIncidents() {
             </thead>
             <tbody>
               {list.map((inc) => (
-                <tr key={inc.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr key={inc.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                   <Td><span className="font-mono text-[10px]" style={{ color: C.textMuted }}>{inc.id}</span></Td>
                   <Td><span className="font-semibold" style={{ color: C.text }}>{inc.type}</span></Td>
                   <Td><span className="font-mono font-bold" style={{ color: C.primary }}>{inc.vehicle}</span></Td>

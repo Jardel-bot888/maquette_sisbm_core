@@ -5,6 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><!-- figma:title --></title>
+    <script>
+      // Applique le thème mémorisé avant le montage de React (aucun flash).
+      try {
+        document.documentElement.dataset.theme =
+          window.localStorage.getItem("sisbm-theme") === "light" ? "light" : "dark";
+      } catch (e) {}
+    </script>
     <!-- figma:head-end -->
   </head>
   <body>

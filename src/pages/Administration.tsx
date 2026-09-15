@@ -1,7 +1,6 @@
 // ─── Module Administration & Droits (Premium) ─────────────────────────────────
 import { Shield, Users, KeyRound, Activity } from "lucide-react";
-import { C } from "@/theme";
-import { adminUsers } from "@/data/mock";
+import { C, va } from "@/theme";import { adminUsers } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, Initial, LockBanner } from "@/ui";
 
 const MATRIX = [
@@ -33,7 +32,7 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
           { label: "Droits critiques", value: "2 Super Admin", icon: KeyRound, color: C.red },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: s.color + "22" }}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
@@ -58,7 +57,7 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
               {adminUsers.map((u) => {
                 const initials = u.name.split(" ").map((n) => n[0]).slice(0, 2).join("");
                 return (
-                  <tr key={u.id} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                  <tr key={u.id} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                     <Td>
                       <div className="flex items-center gap-2.5">
                         <Initial text={initials} color={u.color} size={8} />
@@ -97,7 +96,7 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
             </thead>
             <tbody>
               {MATRIX.map((row, i) => (
-                <tr key={i} style={{ borderBottom: `1px solid ${C.border + "55"}` }}>
+                <tr key={i} style={{ borderBottom: `1px solid ${va(C.border, "33%")}` }}>
                   <Td><span className="font-semibold" style={{ color: C.text }}>{row.role}</span></Td>
                   {row.cols.map((on, j) => (
                     <Td key={j}>

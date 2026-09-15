@@ -1,6 +1,5 @@
 // ─── Popover détail véhicule ──────────────────────────────────────────────────
-import { C, statusConfig } from "@/theme";
-import type { Vehicle } from "@/data/mock";
+import { C, statusConfig, va } from "@/theme";import type { Vehicle } from "@/data/mock";
 
 export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
   vehicle: Vehicle; onClose: () => void; onImmobilize: () => void;
@@ -18,7 +17,7 @@ export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-black text-lg" style={{ color: C.text }}>{vehicle.plate}</span>
-              <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: sc.color + "22", color: sc.color, border: `1px solid ${sc.color}` }}>
+              <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: va(sc.color, "13%"), color: sc.color, border: `1px solid ${sc.color}` }}>
                 {sc.label}
               </span>
             </div>
@@ -35,7 +34,7 @@ export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
             { label: "Batterie", value: `${vehicle.battery}V`, icon: "🔋", warn: vehicle.battery < 11 },
             { label: "Signal GSM", value: `${vehicle.gsm}/4`, icon: "📶", warn: vehicle.gsm < 2 },
           ].map((stat) => (
-            <div key={stat.label} className="rounded-xl p-3" style={{ background: C.navy, border: `1px solid ${stat.warn ? C.red + "44" : C.border}` }}>
+            <div key={stat.label} className="rounded-xl p-3" style={{ background: C.navy, border: `1px solid ${stat.warn ? va(C.red, "27%") : C.border}` }}>
               <div className="text-sm mb-0.5">{stat.icon}</div>
               <div className="text-xs" style={{ color: C.textMuted }}>{stat.label}</div>
               <div className="font-bold text-sm" style={{ color: stat.warn ? C.red : C.text }}>{stat.value}</div>
@@ -57,7 +56,7 @@ export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
           <button
             onClick={onImmobilize}
             className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border transition-all hover:opacity-90"
-            style={{ background: "#7F1D1D", color: "#FCA5A5", border: `1px solid ${C.red}44` }}
+            style={{ background: va(C.red, "45%"), color: C.white, border: `1px solid ${va(C.red, "27%")}` }}
           >
             🔌 Couper moteur
           </button>
