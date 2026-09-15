@@ -19,3 +19,6 @@ logs/
 # beside it.
 /.plugins/
 /.opencode-skills/
+# Lockfile unique : ce projet utilise pnpm (pnpm-lock.yaml).
+# Empeche la regeneration d'un lockfile npm concurrent.
+package-lock.json
