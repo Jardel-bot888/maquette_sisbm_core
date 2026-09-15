@@ -11,7 +11,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
   return (
     <div className="flex flex-col gap-4 h-full overflow-y-auto">
       {/* Alerts */}
-      <div className="rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: C.text }}>Alertes récentes</span>
@@ -44,7 +44,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
       </div>
 
       {/* Incidents */}
-      <div className="rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: C.text }}>Incidents en cours</span>
@@ -72,7 +72,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
       </div>
 
       {/* Reports */}
-      <div className="rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
         <div className="flex items-center justify-between mb-3">
           <span className="font-bold text-sm" style={{ color: C.text }}>Rapports populaires</span>
           <button onClick={() => onNavigate("Rapports & Exports")} className="text-xs font-semibold" style={{ color: C.primary }}>Voir tout</button>

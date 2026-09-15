@@ -40,8 +40,8 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
       </div>
 
       {/* Carte + panneau latéral */}
-      <div className="flex gap-4 flex-col lg:flex-row" style={{ minHeight: 420 }}>
-        <div className="flex-1 rounded-xl border flex flex-col overflow-hidden" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="flex gap-4 flex-col lg:flex-row items-stretch lg:h-[560px]" style={{ minHeight: 420 }}>
+        <div className="flex-1 min-w-0 rounded-xl border flex flex-col overflow-hidden" style={{ background: C.cardBg, borderColor: C.border }}>
           <div className="px-4 py-2.5 border-b flex items-center justify-between flex-shrink-0" style={{ borderColor: C.border }}>
             <div className="flex items-center gap-2">
               <BlinkDot color={C.green} />
@@ -52,12 +52,12 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
               ⛶ Plein écran
             </button>
           </div>
-          <div className="flex-1 p-2">
+          <div className="flex-1 min-h-0 p-2">
             <AbidjanMap onVehicleClick={onVehicleClick} />
           </div>
         </div>
 
-        <div style={{ width: 320, minWidth: 320, maxWidth: "100%" }}>
+        <div className="shrink-0 w-full lg:w-[320px]">
           <AlertsPanel onNavigate={onNavigate} />
         </div>
       </div>

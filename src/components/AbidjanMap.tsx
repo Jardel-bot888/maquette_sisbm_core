@@ -13,10 +13,11 @@ const MAP_H = 420;
 type Props = {
   onVehicleClick: (v: Vehicle) => void;
   selectedVehicle?: Vehicle | null;
-  height?: number;
+  /** Hauteur de la carte : nombre en px, ou "100%" (défaut) pour remplir son conteneur parent. */
+  height?: number | string;
 };
 
-export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = 420 }: Props) {
+export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "100%" }: Props) {
   const [filterStatus, setFilterStatus] = useState("all");
   const [zoom, setZoom] = useState(1);
   const [layer, setLayer] = useState<"standard" | "satellite" | "dark">("standard");
@@ -27,7 +28,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = 4
   const routeSvgPoints = routePoints ? routePoints.map((p) => `${p.x},${p.y}`).join(" ") : null;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl border flex-1" style={{ background: C.navyMid, borderColor: C.border, height }}>
+    <div className="relative w-full overflow-hidden rounded-xl border min-h-[320px]" style={{ background: C.navyMid, borderColor: C.border, height }}>
       <iframe
         title="Google Maps Abidjan"
         src="https://www.google.com/maps?q=Abidjan%2C%20C%C3%B4te%20d'Ivoire&z=11&output=embed"
