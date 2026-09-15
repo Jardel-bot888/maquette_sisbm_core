@@ -4,7 +4,7 @@ import { C } from "@/theme";
 import { smsAccount, smsHistory } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, LockBanner } from "@/ui";
 
-export default function SupervisionSms() {
+export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
   const pct = Math.round((smsAccount.monthlyConsumed / smsAccount.monthlyQuota) * 100);
   return (
     <div className="space-y-4">
@@ -14,7 +14,7 @@ export default function SupervisionSms() {
         actions={<Btn variant="gold">Recharger 5 000 SMS</Btn>}
       />
 
-      <LockBanner tier="premium" />
+      {tier !== "premium" && <LockBanner tier="premium" />}
 
       {/* Compteur */}
       <div className="rounded-2xl border p-5" style={{ background: "#16273d", borderColor: "#24364f" }}>

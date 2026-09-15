@@ -1,7 +1,7 @@
 // ─── Module Administration & Droits (Premium) ─────────────────────────────────
 import { Shield, Users, KeyRound, Activity } from "lucide-react";
 import { C } from "@/theme";
-import { adminUsers, userTier } from "@/data/mock";
+import { adminUsers } from "@/data/mock";
 import { PageHeader, Btn, StatusPill, Th, Td, Initial, LockBanner } from "@/ui";
 
 const MATRIX = [
@@ -13,7 +13,7 @@ const MATRIX = [
 ];
 const MODULES = ["Dashboard", "Immobilisation", "Géofencing", "Rapports", "Maintenance"];
 
-export default function Administration({ onNavigate }: { onNavigate: (label: string) => void }) {
+export default function Administration({ onNavigate, tier = "gold" }: { onNavigate: (label: string) => void; tier?: string }) {
   return (
     <div className="space-y-4">
       <PageHeader
@@ -22,7 +22,7 @@ export default function Administration({ onNavigate }: { onNavigate: (label: str
         actions={<Btn onClick={() => onNavigate("Conducteurs")}>➕ Inviter un utilisateur</Btn>}
       />
 
-      {userTier !== "premium" && <LockBanner tier="premium" />}
+      {tier !== "premium" && <LockBanner tier="premium" />}
 
       {/* Synthèse */}
       <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>

@@ -5,7 +5,7 @@ import logoUrl from "../../image/logo.png";
 import { C, tierOrder } from "@/theme";
 import { navItems, userTier } from "@/data/mock";
 
-export default function Sidebar({ active, setActive }: { active: string; setActive: (s: string) => void }) {
+export default function Sidebar({ active, setActive, tier = userTier }: { active: string; setActive: (s: string) => void; tier?: string }) {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <aside
@@ -27,7 +27,7 @@ export default function Sidebar({ active, setActive }: { active: string; setActi
 
       <nav className="flex-1 overflow-y-auto pb-4">
         {navItems.map((item) => {
-          const locked = tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[userTier as keyof typeof tierOrder];
+          const locked = tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[tier as keyof typeof tierOrder];
           const isActive = active === item.label;
           const Icon = item.icon;
           return (
@@ -85,7 +85,7 @@ export default function Sidebar({ active, setActive }: { active: string; setActi
             <div>Connecter · Former</div>
           </div>
           <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: "#102D4A", borderColor: C.primaryLight, color: C.primaryLight }}>
-            Plan Gold · Actif
+            Plan {tier === "premium" ? "Premium" : tier === "gold" ? "Gold" : "Standard"} · Actif
           </div>
         </div>
       )}

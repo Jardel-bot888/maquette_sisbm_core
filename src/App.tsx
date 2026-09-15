@@ -30,6 +30,7 @@ export default function App() {
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
   const [immobilizeTarget, setImmobilizeTarget] = useState<Vehicle | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [tier, setTier] = useState<string>(userTier); // formule simulée — modifiable depuis le menu profil (démo)
   const [showNotif, setShowNotif] = useState(false);
   const [readIds, setReadIds] = useState<Record<string, boolean>>({});
 
@@ -37,7 +38,7 @@ export default function App() {
 
   const navigate = (label: string) => {
     const item = navItems.find((i) => i.label === label);
-    if (item && tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[userTier as keyof typeof tierOrder]) return;
+    if (item && tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[tier as keyof typeof tierOrder]) return;
     setActiveNav(label);
     setShowNotif(false);
     setShowUserMenu(false);
@@ -73,9 +74,9 @@ export default function App() {
       case "Conducteurs":
         return <Conducteurs />;
       case "Supervision SMS & Fact.":
-        return <SupervisionSms />;
+        return <SupervisionSms tier={tier} />;
       case "Administration & Droits":
-        return <Administration onNavigate={navigate} />;
+        return <Administration onNavigate={navigate} tier={tier} />;
       case "Tableau de bord":
       default:
         return (
@@ -90,7 +91,7 @@ export default function App() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: C.bg, fontFamily: "Inter, sans-serif" }}>
-      <Sidebar active={activeNav} setActive={setActiveNav} />
+      <Sidebar active={activeNav} setActive={setActiveNav} tier={tier} />
 
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         <Header
@@ -116,7 +117,7 @@ export default function App() {
       {immobilizeTarget && (
         <ImmobilizationModal vehicle={immobilizeTarget} onClose={() => setImmobilizeTarget(null)} />
       )}
-      {showUserMenu && <UserMenu onClose={() => setShowUserMenu(false)} onNavigate={navigate} />}
+      {showUserMenu && <UserMenu onClose={() => setShowUserMenu(false)} onNavigate={navigate} tier={tier} onTierChange={setTier} />}
       {showNotif && (
         <NotificationsPanel
           readIds={readIds}
