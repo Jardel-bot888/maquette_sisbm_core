@@ -92,7 +92,7 @@ export default function App() {
     <div className="flex h-screen overflow-hidden" style={{ background: C.bg, fontFamily: "Inter, sans-serif" }}>
       <Sidebar active={activeNav} setActive={setActiveNav} />
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         <Header
           onNotifClick={() => setShowNotif(!showNotif)}
           onUserMenu={() => setShowUserMenu(!showUserMenu)}

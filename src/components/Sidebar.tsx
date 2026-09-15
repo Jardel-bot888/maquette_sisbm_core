@@ -9,17 +9,21 @@ export default function Sidebar({ active, setActive }: { active: string; setActi
   const [collapsed, setCollapsed] = useState(false);
   return (
     <aside
-      className="flex flex-col h-full border-r transition-all duration-300"
+      className="flex flex-col h-full border-r transition-all duration-300 shrink-0"
       style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.navyMid, borderColor: C.border }}
     >
-      {/* Collapse toggle */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="self-end m-2 w-7 h-7 rounded-lg flex items-center justify-center border"
-        style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}
-      >
-        {collapsed ? "›" : "‹"}
-      </button>
+      {/* Bandeau aligné sur la hauteur de la navbar (h-16) : le bouton reste confiné
+          dans la colonne latérale et ne peut plus passer par-dessus la zone du logo SISBM. */}
+      <div className="flex items-center justify-end h-16 px-2 border-b shrink-0" style={{ borderColor: C.border }}>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
+          className="w-7 h-7 rounded-lg flex items-center justify-center border shrink-0"
+          style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}
+        >
+          {collapsed ? "›" : "‹"}
+        </button>
+      </div>
 
       <nav className="flex-1 overflow-y-auto pb-4">
         {navItems.map((item) => {
