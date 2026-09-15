@@ -68,6 +68,26 @@ html, body, #root {
   }
 }
 
+@keyframes routeDash {
+  to {
+    stroke-dashoffset: -14;
+  }
+}
+
+@keyframes routeDotPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.route-dot {
+  animation: routeDotPulse 1.6s ease-in-out infinite;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;

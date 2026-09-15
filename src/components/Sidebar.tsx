@@ -1,0 +1,90 @@
+// ─── Barre de navigation latérale SISBM CORE ──────────────────────────────────
+import { useState } from "react";
+import { Shield } from "lucide-react";
+import logoUrl from "../../image/logo.png";
+import { C, tierOrder } from "@/theme";
+import { navItems, userTier } from "@/data/mock";
+
+export default function Sidebar({ active, setActive }: { active: string; setActive: (s: string) => void }) {
+  const [collapsed, setCollapsed] = useState(false);
+  return (
+    <aside
+      className="flex flex-col h-full border-r transition-all duration-300"
+      style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.navyMid, borderColor: C.border }}
+    >
+      {/* Collapse toggle */}
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        className="self-end m-2 w-7 h-7 rounded-lg flex items-center justify-center border"
+        style={{ background: C.navy, borderColor: C.navyLight, color: C.textMuted }}
+      >
+        {collapsed ? "›" : "‹"}
+      </button>
+
+      <nav className="flex-1 overflow-y-auto pb-4">
+        {navItems.map((item) => {
+          const locked = tierOrder[item.tier as keyof typeof tierOrder] > tierOrder[userTier as keyof typeof tierOrder];
+          const isActive = active === item.label;
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.label}
+              onClick={() => !locked && setActive(item.label)}
+              title={collapsed ? item.label : undefined}
+              className="w-full flex items-center gap-3 px-3 py-2.5 text-left text-sm transition-all relative group"
+              style={{
+                background: isActive ? C.primary + "22" : "transparent",
+                borderLeft: isActive ? `3px solid ${C.primary}` : "3px solid transparent",
+                color: locked ? "#475569" : isActive ? C.text : C.textMuted,
+                cursor: locked ? "not-allowed" : "pointer",
+              }}
+            >
+              <span className="text-base w-5 text-center flex-shrink-0 flex items-center justify-center">
+                {locked ? <Shield className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
+              </span>
+              {!collapsed && (
+                <>
+                  <span className="flex-1 truncate font-medium" style={{ color: locked ? "#475569" : isActive ? C.text : C.textMuted }}>
+                    {item.label}
+                  </span>
+                  {item.badge ? (
+                    <span className="text-xs rounded-full px-1.5 font-bold" style={{ background: C.red, color: "white", minWidth: 18, textAlign: "center" }}>
+                      {item.badge}
+                    </span>
+                  ) : null}
+                  {locked && (
+                    <span className="text-[10px] rounded px-1" style={{ background: item.tier === "premium" ? "#4C1D95" : "#78350F", color: item.tier === "premium" ? "#C4B5FD" : "#FCD34D" }}>
+                      {item.tier === "premium" ? "Premium" : "Gold"}
+                    </span>
+                  )}
+                </>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+
+      {/* Footer brand */}
+      {!collapsed && (
+        <div className="px-4 py-4 border-t" style={{ borderColor: C.border }}>
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: "#0B1320", borderColor: C.border }}>
+              <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-black text-sm tracking-tight" style={{ color: C.text }}>SISBM CORE</div>
+              <div className="text-[11px] truncate" style={{ color: C.textMuted }}>Supervision de flotte</div>
+            </div>
+          </div>
+          <div className="mt-3 space-y-0.5 text-[11px] leading-tight" style={{ color: C.textMuted }}>
+            <div>Sécuriser · Construire</div>
+            <div>Connecter · Former</div>
+          </div>
+          <div className="mt-3 inline-flex items-center rounded-lg border px-2.5 py-1.5 text-[11px] font-medium leading-none" style={{ background: "#102D4A", borderColor: C.primaryLight, color: C.primaryLight }}>
+            Plan Gold · Actif
+          </div>
+        </div>
+      )}
+    </aside>
+  );
+}
