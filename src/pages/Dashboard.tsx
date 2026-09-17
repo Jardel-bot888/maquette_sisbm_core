@@ -67,11 +67,12 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
           return (
             <button
               key={i}
+              type="button"
               onClick={() => onNavigate(qa.target)}
-              className="flex flex-col items-center gap-2 px-3 py-4 rounded-xl border text-center transition-all hover:border-blue-600 group"
+              className="group flex flex-col items-center gap-2 px-3 py-4 rounded-xl border text-center cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lift hover:border-[var(--sisbm-primary)]"
               style={{ background: C.cardBg, borderColor: C.border }}
             >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all" style={{ background: C.navy }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: C.navy }}>
                 <Icon className="h-5 w-5" style={{ color: C.text }} />
               </div>
               <p className="text-xs font-semibold" style={{ color: C.text }}>{qa.label}</p>

@@ -67,6 +67,9 @@ const DARK_VARS: VarMap = {
   hover: "rgba(255,255,255,0.05)",
   soft: "#16273D",
   switchOff: "#334155",
+  // Ombre portée des cartes cliquables (surlèvement au survol) : plus dense en
+  // sombre, où une ombre trop légère serait imperceptible sur le bleu nuit.
+  shadow: "rgba(0,0,0,0.55)",
   // ── Chrome de la barre latérale : valeurs volontairement IDENTIQUES dans les
   //    deux thèmes — la sidebar garde son bleu nuit (identité de marque SISBM)
   //    même en mode clair, comme la sidebar d'un dashboard SaaS classique.
@@ -102,6 +105,7 @@ const LIGHT_VARS: VarMap = {
   hover: "rgba(15,76,138,0.06)",
   soft: "#E8F0FE",
   switchOff: "#CBD5E1",
+  shadow: "rgba(15,23,42,0.16)",
   // Chrome latéral inchangé : la sidebar reste bleu nuit en mode clair.
   sideBg: "#0D233C",
   sideBgAlt: "#071B2D",
@@ -143,6 +147,7 @@ export const C: ThemeRef = {
   hover: v("hover"),
   soft: v("soft"),
   switchOff: v("switchOff"),
+  shadow: v("shadow"),
   // Chrome latéral (bleu nuit dans les deux thèmes)
   sideBg: v("sideBg"),
   sideBgAlt: v("sideBgAlt"),
