@@ -50,7 +50,7 @@ export default function NotificationsPanel({ readIds, onRead, onReadAll, onClose
               >
                 <span className="flex-1 min-w-0">
                   <span className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xs font-black rounded px-1.5 py-0.5" style={{ background: lvl.badge, color: "white", fontSize: 9 }}>{lvl.label}</span>
+                    <span className="text-xs font-black rounded px-1.5 py-0.5 border" style={{ background: lvl.badgeBg, color: lvl.badge, borderColor: lvl.badgeBorder, fontSize: 9 }}>{lvl.label}</span>
                     <span className="text-xs font-mono" style={{ color: C.primary }}>{n.plate}</span>
                     {!isRead && <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: C.primary }} />}
                   </span>

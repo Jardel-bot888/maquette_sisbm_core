@@ -16,7 +16,7 @@ export default function MoteurRegles() {
         actions={<Btn><Plus className="h-3.5 w-3.5 inline-block mr-1" />Nouvelle règle</Btn>}
       />
 
-      <div className="flex flex-wrap items-center gap-2 rounded-2xl border px-4 py-3" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border px-4 py-3" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <Zap className="h-4 w-4" style={{ color: C.primaryLight }} />
         <span className="text-xs" style={{ color: C.textMuted }}>
           <span className="font-bold" style={{ color: C.text }}>{list.filter((r) => r.enabled).length}</span> règle(s) active(s) sur {list.length} · évaluation toutes les 30 secondes

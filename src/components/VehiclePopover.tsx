@@ -16,8 +16,8 @@ export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-black text-lg" style={{ color: C.text }}>{vehicle.plate}</span>
-              <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: va(sc.color, "13%"), color: sc.color, border: `1px solid ${sc.color}` }}>
+              <span className="font-black font-mono text-lg" style={{ color: C.text }}>{vehicle.plate}</span>
+              <span className="px-2 py-0.5 rounded-full text-xs font-semibold border" style={{ background: va(sc.color, "13%"), color: sc.color, borderColor: va(sc.color, "40%") }}>
                 {sc.label}
               </span>
             </div>

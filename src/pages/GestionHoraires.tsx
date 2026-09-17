@@ -21,12 +21,12 @@ export default function GestionHoraires() {
           { label: "Violations aujourd'hui", value: violations, icon: AlertTriangle, color: C.red },
           { label: "Plannings respectés", value: `${schedules.length - violations}`, icon: CheckCircle2, color: C.green },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>
@@ -34,7 +34,7 @@ export default function GestionHoraires() {
       </div>
 
       {/* Frise horaire exemple */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Fenêtre autorisée — AB 450 FC (Kouamé B.)</span>
         <div className="flex items-center gap-2">
           {Array.from({ length: 24 }).map((_, h) => {
@@ -57,7 +57,7 @@ export default function GestionHoraires() {
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Plannings par véhicule</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

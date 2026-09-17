@@ -23,12 +23,12 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
           { label: "Zones interdites", value: list.filter((z) => z.type === "Interdite").length, icon: AlertTriangle, color: C.red },
           { label: "Alertes aujourd'hui", value: list.reduce((s, z) => s + z.alertsToday, 0), icon: Map, color: C.orange },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>
@@ -38,7 +38,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
       {/* Cartes zones */}
       <div className="grid gap-3 lg:grid-cols-3">
         {list.map((z) => (
-          <div key={z.id} className="rounded-2xl border p-4 space-y-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={z.id} className="rounded-2xl border p-4 space-y-3" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-lg" style={{ background: va(z.color, "13%"), color: z.color }}>{z.id}</span>
@@ -66,7 +66,7 @@ export default function ZonesGeographiques({ onNavigate }: { onNavigate: (label:
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Gestion détaillée</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

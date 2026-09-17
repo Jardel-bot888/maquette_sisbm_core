@@ -9,6 +9,21 @@
   --shadow-lift: 0 16px 34px -12px var(--sisbm-shadow);
 }
 
+/* Bouton d'action sensible (ex. « Couper ») : repos en fond pastel translucide
+   + bordure assortie, et aplat rouge uniquement au survol. Moins agressif
+   qu'un bouton plein, et lisible dans les deux thèmes (couleurs = variables). */
+.btn-danger-soft {
+  background: color-mix(in srgb, var(--sisbm-red) 12%, transparent);
+  color: var(--sisbm-red);
+  border: 1px solid color-mix(in srgb, var(--sisbm-red) 45%, transparent);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn-danger-soft:hover {
+  background: var(--sisbm-red);
+  color: #fff;
+  border-color: var(--sisbm-red);
+}
+
 :root {
   --sidebar-bg: #0d1b2e;
   --sidebar-text: #a8bbd4;
@@ -44,6 +59,7 @@
   --sisbm-textMuted: #94A3B8;
   --sisbm-textDim: #CBD5E1;
   --sisbm-border: #183B5E;
+  --sisbm-borderSoft: rgba(24, 59, 94, 0.65);
   --sisbm-cardBg: #102B46;
   --sisbm-bg: #071B2D;
   --sisbm-white: #FFFFFF;

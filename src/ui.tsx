@@ -39,12 +39,19 @@ export function BlinkDot({ color }: { color: string }) {
 }
 
 // ─── Carte générique ──────────────────────────────────────────────────────────
-export function Card({ title, badge, action, children, style, className }: {
+export function Card({ title, badge, action, children, style, className, lift = false }: {
   title?: ReactNode; badge?: ReactNode; action?: ReactNode; children: ReactNode;
   style?: React.CSSProperties; className?: string;
+  /** `true` pour une carte cliquable : le surlèvement au survol est alors plus marqué. */
+  lift?: boolean;
 }) {
   return (
-    <div className={`rounded-2xl border p-4 ${className ?? ""}`} style={{ background: C.cardBg, borderColor: C.border, ...style }}>
+    <div
+      className={`rounded-2xl border p-4 transition-all duration-200 ${
+        lift ? "hover:-translate-y-1 hover:shadow-lift" : "hover:shadow-lift"
+      } ${className ?? ""}`}
+      style={{ background: C.cardBg, borderColor: C.borderSoft, ...style }}
+    >
       {(title || badge || action) && (
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2 min-w-0">
@@ -82,7 +89,9 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
   const styles: Record<string, React.CSSProperties> = {
     primary: { background: C.primary, color: "white", border: "1px solid transparent" },
     secondary: { background: C.navy, color: C.textDim, border: `1px solid ${C.border}` },
-    danger: { background: va(C.red, "45%"), color: C.white, border: `1px solid ${va(C.red, "27%")}` },
+    // Action sensible : style « adouci » au repos (fond teinté + bordure) et
+    // aplat rouge seulement au survol → moins agressif qu'un bouton plein.
+    danger: {},
     gold: { background: va(C.orange, "45%"), color: C.white, border: "1px solid transparent" },
   };
   return (
@@ -91,7 +100,9 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
       onClick={onClick}
       disabled={disabled}
       aria-label={label}
-      className={`px-3 py-2 rounded-xl font-semibold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 ${className ?? ""}`}
+      className={`px-3 py-2 rounded-xl font-semibold text-xs transition-all ${
+        variant === "danger" ? "btn-danger-soft" : "hover:opacity-90"
+      } disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 ${className ?? ""}`}
       style={styles[variant]}
     >
       {children}
@@ -114,7 +125,7 @@ export function StatusPill({ color, label, soft = "13%" }: { color: string; labe
 // ─── Badge de comptage ────────────────────────────────────────────────────────
 export function CountBadge({ n, color = C.red }: { n: number; color?: string }) {
   return (
-    <span className="text-xs rounded-full px-2 py-0.5 font-bold min-w-[18px] text-center" style={{ background: color, color: "white" }}>
+    <span className="text-xs rounded-full px-2 py-0.5 font-bold font-mono tabular-nums min-w-[18px] text-center" style={{ background: va(color, "16%"), color, border: `1px solid ${va(color, "40%")}` }}>
       {n}
     </span>
   );

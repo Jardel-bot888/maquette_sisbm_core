@@ -54,7 +54,7 @@ export default function CentreAlertes() {
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>
           Journal des alertes <span className="font-normal text-xs" style={{ color: C.textMuted }}>({rows.length} résultat(s))</span>
         </span>
@@ -102,12 +102,12 @@ export default function CentreAlertes() {
           { label: "SMS délivrés", value: "211 (98,6%)", icon: CheckCircle2, color: C.green },
           { label: "Échecs / réessais", value: "3", icon: AlertTriangle, color: C.red },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>

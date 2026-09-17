@@ -171,7 +171,7 @@ export default function AbidjanMap({ onVehicleClick, selectedVehicle, height = "
       {selectedVehicle && routePoints && (
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 rounded-xl border px-3 py-2 text-xs flex items-center gap-2" style={{ background: va(C.navyMid, "93%"), borderColor: C.primaryLight }}>
           <span>🛣</span>
-          <span className="font-semibold" style={{ color: C.text }}>{selectedVehicle.plate}</span>
+          <span className="font-semibold font-mono" style={{ color: C.text }}>{selectedVehicle.plate}</span>
           <span style={{ color: C.textMuted }}>— itinéraire simulé · {routePoints.length} points</span>
         </div>
       )}

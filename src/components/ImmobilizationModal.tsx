@@ -26,7 +26,7 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
           <div className="text-5xl mb-4">✅</div>
           <h3 className="font-bold text-lg mb-2" style={{ color: C.text }}>Commande envoyée</h3>
           <p className="text-sm mb-4" style={{ color: C.textMuted }}>
-            SMS RELAY,1# envoyé au traceur du véhicule {vehicle.plate}. Confirmation attendue sous 30s.
+            SMS RELAY,1# envoyé au traceur du véhicule <span className="font-mono font-semibold">{vehicle.plate}</span>. Confirmation attendue sous 30s.
           </p>
           <button onClick={onClose} className="px-6 py-2 rounded-xl font-semibold text-sm" style={{ background: C.primary, color: "white" }}>Fermer</button>
         </div>
@@ -43,7 +43,7 @@ export default function ImmobilizationModal({ vehicle, onClose }: { vehicle: Veh
             <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: va(C.red, "45%") }}>🔌</div>
             <div>
               <h3 className="font-bold text-sm" style={{ color: C.text }}>Commande d'Immobilisation Sécurisée</h3>
-              <p className="text-xs" style={{ color: C.textMuted }}>Micodus MV730 / Relais S20 · {vehicle.plate}</p>
+              <p className="text-xs" style={{ color: C.textMuted }}>Micodus MV730 / Relais S20 · <span className="font-mono font-semibold">{vehicle.plate}</span></p>
             </div>
           </div>
           <button onClick={onClose} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: C.navy, color: C.textMuted }}>✕</button>

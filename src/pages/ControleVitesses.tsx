@@ -24,12 +24,12 @@ export default function ControleVitesses() {
           { label: "Dépassements 24h", value: "37", icon: AlertTriangle, color: C.red },
           { label: "Zones limitées", value: `${list.filter((r) => r.enabled).length} actives`, icon: Timer, color: C.orange },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>
@@ -37,7 +37,7 @@ export default function ControleVitesses() {
       </div>
 
       {/* Courbe dépassements */}
-      <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Dépassements et vitesse moyenne (7 derniers jours)</span>
         <ResponsiveContainer width="100%" height={180}>
           <ComposedChart data={speedDaily}>
@@ -52,7 +52,7 @@ export default function ControleVitesses() {
       </div>
 
       {/* Table des limites */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Limites configurées</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

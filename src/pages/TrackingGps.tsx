@@ -20,7 +20,7 @@ export default function TrackingGps({ onVehicleClick }: { onVehicleClick: (v: Ve
 
       <div className="flex gap-4 flex-col lg:flex-row">
         {/* Liste véhicules */}
-        <div className="w-full lg:w-72 rounded-2xl border p-3 flex-shrink-0" style={{ background: C.cardBg, borderColor: C.border }}>
+        <div className="w-full lg:w-72 rounded-2xl border p-3 flex-shrink-0" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
           <div className="px-1 pb-3 flex items-center justify-between">
             <span className="text-xs font-bold" style={{ color: C.text }}>Véhicules ({list.length})</span>
             <select value={filter} onChange={(e) => setFilter(e.target.value)} className="text-xs px-2 py-1 rounded-lg border outline-none" style={{ background: C.navy, borderColor: C.border, color: C.text }}>
@@ -58,7 +58,7 @@ export default function TrackingGps({ onVehicleClick }: { onVehicleClick: (v: Ve
         </div>
 
         {/* Carte */}
-        <div className="flex-1 min-w-0 flex flex-col rounded-xl border overflow-hidden" style={{ background: C.cardBg, borderColor: C.border }}>
+        <div className="flex-1 min-w-0 flex flex-col rounded-2xl border overflow-hidden transition-all duration-200 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
           <AbidjanMap onVehicleClick={(v) => { setSelected(v); onVehicleClick(v); }} selectedVehicle={selected} height={460} />
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function TrackingGps({ onVehicleClick }: { onVehicleClick: (v: Ve
             { icon: History, label: "Kilométrage", value: (selected.mileage ?? 0).toLocaleString("fr-FR") + " km" },
             { icon: Clock3, label: "Dernière position", value: `${selected.pos} · il y a <1 min` },
           ].map((s, i) => (
-            <div key={i} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+            <div key={i} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
               <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: C.navy }}>
                 <s.icon className="h-4 w-4" style={{ color: C.primaryLight }} />
               </div>

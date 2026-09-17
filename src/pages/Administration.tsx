@@ -31,12 +31,12 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
           { label: "Sessions aujourd'hui", value: "3", icon: Activity, color: C.green },
           { label: "Droits critiques", value: "2 Super Admin", icon: KeyRound, color: C.red },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>
@@ -44,7 +44,7 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
       </div>
 
       {/* Utilisateurs */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Utilisateurs</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
@@ -84,7 +84,7 @@ export default function Administration({ onNavigate, tier = "gold" }: { onNaviga
       </div>
 
       {/* Matrice RBAC */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Matrice d'accès par rôle</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

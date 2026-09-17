@@ -34,7 +34,7 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
       </div>
 
       {/* Table */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
@@ -74,7 +74,7 @@ export default function RapportsExports({ onNavigate }: { onNavigate: (label: st
       </div>
 
       {/* Génération planifiée */}
-      <div className="rounded-2xl border p-4 flex items-center justify-between gap-4 flex-wrap" style={{ background: C.soft, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4 flex items-center justify-between gap-4 flex-wrap" style={{ background: C.soft, borderColor: C.borderSoft }}>
         <div>
           <p className="text-sm font-bold" style={{ color: C.text }}>Rapport automatique hebdomadaire</p>
           <p className="text-xs" style={{ color: C.textMuted }}>Envoyé chaque lundi à 07:00 · Destinataires : direction & SOC · Format PDF + Excel</p>

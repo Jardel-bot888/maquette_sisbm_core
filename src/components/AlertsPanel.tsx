@@ -1,6 +1,7 @@
 // ─── Panneaux latéraux du dashboard (alertes, incidents, rapports) ────────────
 import { AlertTriangle, RadioTower, Map, BatteryCharging, KeyRound, Activity, CircleDashed } from "lucide-react";
 import { C, alertLevelConfig, va } from "@/theme";import { alerts, incidents, reports } from "@/data/mock";
+import { CountBadge } from "@/ui";
 
 const iconMap: Record<string, typeof AlertTriangle> = {
   AlertTriangle, RadioTower, Map, BatteryCharging, KeyRound, Activity, CircleDashed,
@@ -10,11 +11,11 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
   return (
     <div className="flex flex-col gap-4 h-full overflow-y-auto">
       {/* Alerts */}
-      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-2xl border p-4 transition-all duration-200 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: C.text }}>Alertes récentes</span>
-            <span className="text-xs rounded-full px-2 py-0.5 font-bold" style={{ background: C.red, color: "white" }}>{alerts.length}</span>
+            <CountBadge n={alerts.length} color={C.red} />
           </div>
           <button onClick={() => onNavigate("Centre d'alertes SMS")} className="text-xs font-semibold" style={{ color: C.primary }}>Voir tout</button>
         </div>
@@ -29,7 +30,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-xs font-black rounded px-1.5 py-0.5" style={{ background: lvl.badge, color: "white", fontSize: 9 }}>{lvl.label}</span>
+                    <span className="text-xs font-black rounded px-1.5 py-0.5 border" style={{ background: lvl.badgeBg, color: lvl.badge, borderColor: lvl.badgeBorder, fontSize: 9 }}>{lvl.label}</span>
                     <span className="text-xs font-mono" style={{ color: C.primary }}>{a.plate}</span>
                   </div>
                   <p className="text-xs font-semibold truncate" style={{ color: C.text }}>{a.title}</p>
@@ -43,11 +44,11 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
       </div>
 
       {/* Incidents */}
-      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-2xl border p-4 transition-all duration-200 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <span className="font-bold text-sm" style={{ color: C.text }}>Incidents en cours</span>
-            <span className="text-xs rounded-full px-2 py-0.5 font-bold" style={{ background: C.orange, color: "white" }}>{incidents.length}</span>
+            <CountBadge n={incidents.length} color={C.orange} />
           </div>
           <button onClick={() => onNavigate("Gestion des incidents")} className="text-xs font-semibold" style={{ color: C.primary }}>Voir tout</button>
         </div>
@@ -71,7 +72,7 @@ export default function AlertsPanel({ onNavigate }: { onNavigate: (label: string
       </div>
 
       {/* Reports */}
-      <div className="shrink-0 rounded-xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="shrink-0 rounded-2xl border p-4 transition-all duration-200 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <div className="flex items-center justify-between mb-3">
           <span className="font-bold text-sm" style={{ color: C.text }}>Rapports populaires</span>
           <button onClick={() => onNavigate("Rapports & Exports")} className="text-xs font-semibold" style={{ color: C.primary }}>Voir tout</button>

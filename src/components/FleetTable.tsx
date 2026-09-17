@@ -20,7 +20,7 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
   const rows = filter === "all" ? vehicles : vehicles.filter((v) => v.status === filter);
 
   return (
-    <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.border }}>
+    <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.borderSoft }}>
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-baseline gap-2">
           <span className="font-bold text-[16px]" style={{ color: C.text }}>Flux des véhicules en direct</span>
@@ -96,15 +96,15 @@ export default function FleetTable({ onImmobilize, onSelect, onNavigate }: Props
                     <div className="flex items-center gap-2">
                       <button
                         onClick={(e) => { e.stopPropagation(); onImmobilize(v); }}
-                        className="px-2 py-1 rounded-lg text-xs font-semibold border leading-none"
-                        style={{ background: va(C.red, "45%"), color: C.white, borderColor: va(C.red, "27%") }}
+                        className="btn-danger-soft px-2 py-1 rounded-lg text-xs font-semibold border leading-none"
+                        aria-label={`Couper le véhicule ${v.plate}`}
                       >
                         🔌 Couper
                       </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); onSelect(v); }}
                         className="px-2 py-1 rounded-lg text-xs border leading-none"
-                        style={{ background: C.navy, color: C.textMuted, borderColor: C.border }}
+                        style={{ background: C.navy, color: C.textMuted, borderColor: C.borderSoft }}
                       >
                         📋
                       </button>

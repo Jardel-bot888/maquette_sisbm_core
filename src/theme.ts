@@ -61,6 +61,9 @@ const DARK_VARS: VarMap = {
   textMuted: "#94A3B8",
   textDim: "#CBD5E1",
   border: "#183B5E",
+  // Bordure « adoucie » des cartes (style SaaS) : le navy reste lisible mais
+  // moins marqué, pour laisser respirer les surfaces.
+  borderSoft: "rgba(24,59,94,0.65)",
   cardBg: "#102B46",
   bg: "#071B2D",
   white: "#FFFFFF",
@@ -99,6 +102,8 @@ const LIGHT_VARS: VarMap = {
   textMuted: "#6B7A90",
   textDim: "#334155",
   border: "#E2E8F0",
+  // Équivalent demandé de `border-slate-100/80` en mode clair.
+  borderSoft: "rgba(241,245,249,0.8)",
   cardBg: "#FFFFFF",
   bg: "#F0F4F8",
   white: "#FFFFFF",
@@ -141,6 +146,7 @@ export const C: ThemeRef = {
   textMuted: v("textMuted"),
   textDim: v("textDim"),
   border: v("border"),
+  borderSoft: v("borderSoft"),
   cardBg: v("cardBg"),
   bg: v("bg"),
   white: v("white"),
@@ -226,8 +232,8 @@ export const statusConfig: Record<string, { color: string; label: string; dot: s
 // Fonds = teinte translucide de la couleur de niveau : le composite fonctionne
 // aussi bien sur une carte sombre que sur une carte blanche, et le texte suit
 // automatiquement le thème (pas de fond clair sous un texte clair en sombre).
-export const alertLevelConfig: Record<string, { bg: string; border: string; badge: string; label: string }> = {
-  critical: { bg: va(C.red, "14%"), border: C.red, badge: C.red, label: "CRITIQUE" },
-  major: { bg: va(C.orange, "14%"), border: C.orange, badge: C.orange, label: "MAJEUR" },
-  medium: { bg: va(C.gray, "14%"), border: C.gray, badge: C.gray, label: "MOYEN" },
+export const alertLevelConfig: Record<string, { bg: string; border: string; badge: string; badgeBg: string; badgeBorder: string; label: string }> = {
+  critical: { bg: va(C.red, "14%"), border: C.red, badge: C.red, badgeBg: va(C.red, "14%"), badgeBorder: va(C.red, "40%"), label: "CRITIQUE" },
+  major: { bg: va(C.orange, "14%"), border: C.orange, badge: C.orange, badgeBg: va(C.orange, "14%"), badgeBorder: va(C.orange, "40%"), label: "MAJEUR" },
+  medium: { bg: va(C.gray, "14%"), border: C.gray, badge: C.gray, badgeBg: va(C.gray, "14%"), badgeBorder: va(C.gray, "40%"), label: "MOYEN" },
 }

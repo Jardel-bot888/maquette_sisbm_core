@@ -16,12 +16,12 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
       {tier !== "premium" && <LockBanner tier="premium" />}
 
       {/* Compteur */}
-      <div className="rounded-2xl border p-5" style={{ background: C.soft, borderColor: C.border }}>
+      <div className="rounded-2xl border p-5" style={{ background: C.soft, borderColor: C.borderSoft }}>
         <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
           <div>
             <p className="text-xs font-semibold" style={{ color: C.textMuted }}>SOLDE RESTANT</p>
-            <p className="text-4xl font-black mt-1" style={{ color: C.orange }}>{smsAccount.credits}<span className="text-sm font-bold ml-1" style={{ color: C.textMuted }}>SMS</span></p>
-            <p className="text-xs mt-1" style={{ color: C.textMuted }}>Tarif : {smsAccount.ratePerSms} F CFA / SMS</p>
+            <p className="text-4xl font-black font-mono tabular-nums mt-1" style={{ color: C.orange }}>{smsAccount.credits}<span className="text-sm font-bold ml-1" style={{ color: C.textMuted }}>SMS</span></p>
+            <p className="text-xs mt-1" style={{ color: C.textMuted }}>Tarif : <span className="font-mono tabular-nums">{smsAccount.ratePerSms}</span> F CFA / SMS</p>
           </div>
           <div className="min-w-[220px]">
             <div className="flex items-center justify-between text-xs mb-1.5">
@@ -43,12 +43,12 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
           { label: "Coût cumulé (mois)", value: `${(smsAccount.monthlyConsumed * smsAccount.ratePerSms).toLocaleString("fr-FR")} F`, icon: Coins, color: C.green },
           { label: "Tendance vs mois dernier", value: "+8%", icon: TrendingUp, color: C.orange },
         ].map((s) => (
-          <div key={s.label} className="rounded-2xl border px-4 py-3 flex items-center gap-3" style={{ background: C.cardBg, borderColor: C.border }}>
+          <div key={s.label} className="group rounded-2xl border px-4 py-3 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: va(s.color, "13%") }}>
               <s.icon className="h-5 w-5" style={{ color: s.color }} />
             </div>
             <div>
-              <p className="text-xl font-black leading-none" style={{ color: C.text }}>{s.value}</p>
+              <p className="text-xl font-black font-mono tabular-nums leading-none" style={{ color: C.text }}>{s.value}</p>
               <p className="text-xs mt-1" style={{ color: C.textMuted }}>{s.label}</p>
             </div>
           </div>
@@ -56,7 +56,7 @@ export default function SupervisionSms({ tier = "gold" }: { tier?: string }) {
       </div>
 
       {/* Historique */}
-      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.border }}>
+      <div className="rounded-2xl border p-4" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
         <span className="font-bold text-sm block mb-3" style={{ color: C.text }}>Historique des envois</span>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">

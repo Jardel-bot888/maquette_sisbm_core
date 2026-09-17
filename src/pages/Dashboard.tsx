@@ -24,13 +24,13 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
         {kpis.map((kpi, i) => {
           const Icon = kpiIconMap[kpi.icon] ?? CarFront;
           return (
-            <div key={i} className="flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all hover:border-blue-700" style={{ background: C.cardBg, borderColor: C.border, minHeight: 96 }}>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border flex-shrink-0" style={{ background: C.navy, borderColor: C.border }}>
+            <div key={i} className="group flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all duration-200 hover:-translate-y-1 hover:shadow-lift hover:border-[var(--sisbm-primary)]" style={{ background: C.cardBg, borderColor: C.borderSoft, minHeight: 96 }}>
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border flex-shrink-0 transition-transform duration-200 group-hover:scale-110" style={{ background: C.navy, borderColor: C.borderSoft }}>
                 <Icon className="h-4 w-4" style={{ color: C.text }} />
               </div>
               <div className="min-w-0 flex-1 leading-none">
                 <p className="text-[13px] font-medium leading-none" style={{ color: C.textMuted }}>{kpi.label}</p>
-                <p className="mt-2 font-black text-[24px] leading-none tracking-[-0.04em]" style={{ color: C.text }}>{kpi.value}</p>
+                <p className="mt-2 font-black font-mono tabular-nums text-[24px] leading-none tracking-[-0.04em]" style={{ color: C.text }}>{kpi.value}</p>
                 <p className="mt-2 text-[12px] leading-none" style={{ color: kpi.subColor === "green" ? C.green : kpi.subColor === "red" ? C.red : C.textMuted }}>{kpi.sub}</p>
               </div>
             </div>
@@ -40,7 +40,7 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
 
       {/* Carte + panneau latéral */}
       <div className="flex gap-4 flex-col lg:flex-row items-stretch lg:h-[560px]" style={{ minHeight: 420 }}>
-        <div className="flex-1 min-w-0 rounded-xl border flex flex-col overflow-hidden" style={{ background: C.cardBg, borderColor: C.border }}>
+        <div className="flex-1 min-w-0 rounded-2xl border flex flex-col overflow-hidden transition-all duration-200 hover:shadow-lift" style={{ background: C.cardBg, borderColor: C.borderSoft }}>
           <div className="px-4 py-2.5 border-b flex items-center justify-between flex-shrink-0" style={{ borderColor: C.border }}>
             <div className="flex items-center gap-2">
               <BlinkDot color={C.green} />
@@ -69,10 +69,10 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
               key={i}
               type="button"
               onClick={() => onNavigate(qa.target)}
-              className="group flex flex-col items-center gap-2 px-3 py-4 rounded-xl border text-center cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lift hover:border-[var(--sisbm-primary)]"
-              style={{ background: C.cardBg, borderColor: C.border }}
+              className="group flex flex-col items-center gap-2 px-3 py-4 rounded-2xl border text-center cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:scale-[1.03] hover:shadow-lift hover:border-[var(--sisbm-primary)]"
+              style={{ background: C.cardBg, borderColor: C.borderSoft }}
             >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: C.navy }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110" style={{ background: C.navy }}>
                 <Icon className="h-5 w-5" style={{ color: C.text }} />
               </div>
               <p className="text-xs font-semibold" style={{ color: C.text }}>{qa.label}</p>
@@ -87,17 +87,26 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
         <FleetTable onImmobilize={onImmobilize} onSelect={onVehicleClick} onNavigate={onNavigate} />
 
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border p-4" style={{ background: C.soft, borderColor: C.border }}>
+          <div className="rounded-2xl border p-4 transition-all duration-200 hover:shadow-lift" style={{ background: C.soft, borderColor: C.borderSoft }}>
             <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>État de la flotte</span>
             <div className="flex items-center gap-5 flex-wrap">
               <div className="relative flex-shrink-0">
                 <PieChart width={170} height={170}>
-                  <Pie data={fleetPie} cx={85} cy={85} innerRadius={42} outerRadius={68} dataKey="value" startAngle={90} endAngle={-270}>
-                    {fleetPie.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                  {/* Dégradé subtil par segment : plus dense en haut, plus léger en bas */}
+                  <defs>
+                    {fleetPie.map((entry, i) => (
+                      <linearGradient key={i} id={`pieGrad${i}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" style={{ stopColor: entry.color }} stopOpacity={0.95} />
+                        <stop offset="100%" style={{ stopColor: entry.color }} stopOpacity={0.55} />
+                      </linearGradient>
+                    ))}
+                  </defs>
+                  <Pie data={fleetPie} cx={85} cy={85} innerRadius={42} outerRadius={68} dataKey="value" startAngle={90} endAngle={-270} cornerRadius={6} paddingAngle={2}>
+                    {fleetPie.map((_entry, i) => <Cell key={i} fill={`url(#pieGrad${i})`} />)}
                   </Pie>
                 </PieChart>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="font-black text-[30px] leading-none" style={{ color: C.text }}>28</span>
+                  <span className="font-black font-mono tabular-nums text-[30px] leading-none" style={{ color: C.text }}>28</span>
                   <span className="text-xs mt-1" style={{ color: C.textMuted }}>Total</span>
                 </div>
               </div>
@@ -114,16 +123,27 @@ export default function Dashboard({ onNavigate, onVehicleClick, onImmobilize }: 
             </div>
           </div>
 
-          <div className="rounded-2xl border p-4 flex-1" style={{ background: C.soft, borderColor: C.border }}>
+          <div className="rounded-2xl border p-4 flex-1 transition-all duration-200 hover:shadow-lift" style={{ background: C.soft, borderColor: C.borderSoft }}>
             <span className="font-bold text-[16px] block mb-3" style={{ color: C.text }}>Évolution des incidents (7j)</span>
             <ResponsiveContainer width="100%" height={155}>
               <BarChart data={incidentBar} barSize={12} barGap={6}>
+                {/* Dégradé subtil par série (plus dense en haut de la barre) */}
+                <defs>
+                  <linearGradient id="barGradAlertes" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" style={{ stopColor: C.primary }} stopOpacity={1} />
+                    <stop offset="100%" style={{ stopColor: C.primary }} stopOpacity={0.45} />
+                  </linearGradient>
+                  <linearGradient id="barGradIncidents" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" style={{ stopColor: C.red }} stopOpacity={1} />
+                    <stop offset="100%" style={{ stopColor: C.red }} stopOpacity={0.45} />
+                  </linearGradient>
+                </defs>
                 <XAxis dataKey="date" tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 9, fill: C.textMuted }} axisLine={false} tickLine={false} width={18} />
                 <Tooltip contentStyle={{ background: C.navyMid, border: `1px solid ${C.border}`, borderRadius: 8, fontSize: 11, color: C.text }} cursor={{ fill: va(C.primary, "6%") }} />
                 <Legend wrapperStyle={{ fontSize: 10, color: C.textMuted, paddingTop: 8 }} />
-                <Bar dataKey="alertes" name="Alertes" fill={C.primary} radius={[4, 4, 0, 0]} />
-                <Bar dataKey="incidents" name="Incidents" fill={C.red} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="alertes" name="Alertes" fill="url(#barGradAlertes)" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="incidents" name="Incidents" fill="url(#barGradIncidents)" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
