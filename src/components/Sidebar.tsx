@@ -4,6 +4,7 @@ import { Shield } from "lucide-react";
 import logoUrl from "../../image/logo.png";
 import { C, tierOrder, va } from "@/theme";
 import { navItems, userTier } from "@/data/mock";
+import { BlinkDot } from "@/ui";
 
 export default function Sidebar({ active, setActive, tier = userTier }: { active: string; setActive: (s: string) => void; tier?: string }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -12,19 +13,36 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
       className="flex flex-col h-full border-r transition-all duration-300 shrink-0"
       style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.sideBg, borderColor: C.sideBorder }}
     >
-      {/* Bandeau aligné sur la hauteur de la navbar (h-16) : le bouton reste confiné
-          dans la colonne latérale et ne peut plus passer par-dessus la zone du logo SISBM. */}
-      <div className="flex items-center justify-end h-16 px-2 border-b shrink-0" style={{ borderColor: C.sideBorder }}>
+      {/* Bandeau aligné sur la hauteur de la navbar (h-16) : emplacement UNIQUE de la
+          marque (logo + « SISBM » + badge Live). Le logo fait office de bouton
+          repli/dépli : la marque reste donc visible même en mode replié. */}
+      <div className="flex items-center gap-2 h-16 px-2 border-b shrink-0 overflow-hidden" style={{ borderColor: C.sideBorder }}>
         <button
+          type="button"
           onClick={() => setCollapsed(!collapsed)}
           aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
           aria-expanded={!collapsed}
           title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
-          className="w-7 h-7 rounded-lg flex items-center justify-center border shrink-0"
-          style={{ background: C.sideBgAlt, borderColor: C.sideBorder, color: C.sideTextMuted }}
+          className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border shrink-0 cursor-pointer transition-all hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ background: C.sideBgAlt, borderColor: collapsed ? C.sideBorder : C.sideAccent }}
         >
-          {collapsed ? "›" : "‹"}
+          <img src={logoUrl} alt="SISBM" className="h-full w-full object-contain p-1" />
         </button>
+
+        {!collapsed && (
+          <>
+            <span className="font-black text-lg leading-none tracking-tight whitespace-nowrap min-w-0 truncate" style={{ color: C.sideText }}>
+              SISBM
+            </span>
+            <span
+              className="ml-auto inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border text-[10px] font-semibold leading-none whitespace-nowrap shrink-0"
+              style={{ borderColor: C.sideGreen, color: C.sideGreen, background: va(C.sideGreen, "13%") }}
+            >
+              <BlinkDot color={C.sideGreen} />
+              Live
+            </span>
+          </>
+        )}
       </div>
 
       <nav className="flex-1 overflow-y-auto pb-4">
@@ -70,19 +88,11 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
         })}
       </nav>
 
-      {/* Footer brand */}
+      {/* Footer : accroche + formule. La marque n'y figure plus (elle est déjà en haut
+          du volet) → aucune duplication dans la même colonne. */}
       {!collapsed && (
         <div className="px-4 py-4 border-t" style={{ borderColor: C.sideBorder }}>
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border flex-shrink-0" style={{ background: C.sideBgAlt, borderColor: C.sideBorder }}>
-              <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
-            </div>
-            <div className="min-w-0">
-              <div className="font-black text-sm tracking-tight" style={{ color: C.sideText }}>SISBM CORE</div>
-              <div className="text-[11px] truncate" style={{ color: C.sideTextMuted }}>Supervision de flotte</div>
-            </div>
-          </div>
-          <div className="mt-3 space-y-0.5 text-[11px] leading-tight" style={{ color: C.sideTextMuted }}>
+          <div className="space-y-0.5 text-[11px] leading-tight" style={{ color: C.sideTextMuted }}>
             <div>Sécuriser · Construire</div>
             <div>Connecter · Former</div>
           </div>

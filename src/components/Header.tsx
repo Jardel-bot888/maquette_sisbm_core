@@ -3,7 +3,6 @@
 // horloge, crédits SMS, sélecteur d'organisation, cloche notifications, profil.
 
 import { useEffect, useRef, useState } from "react";
-import logoUrl from "../../image/logo.png";
 import { C, va } from "@/theme";
 import { allVehicles, zones, smsAccount } from "@/data/mock";
 import { BlinkDot, LiveClock } from "@/ui";
@@ -93,27 +92,18 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
 
   return (
     <header className="relative flex-shrink-0 border-b" style={{ background: C.navyMid, borderColor: C.border }}>
-      {/* ══ Rangée unique et rigide : 3 colonnes, hauteur fixe, AUCUN retour à la ligne possible ══ */}
+      {/* ══ Rangée unique et rigide : recherche + cluster droit, hauteur fixe, AUCUN retour à la ligne possible ══ */}
       <div className="flex items-center h-16 gap-3 px-4 overflow-hidden">
 
         {/* ── COLONNE GAUCHE : Logo SISBM + badge Live (espacement gap-4 + largeur minimale garantie :
               le badge ne peut plus chevaucher le logo et le sidebar ne peut plus déborder dessus) ── */}
-        <div className="flex items-center gap-4 shrink-0 min-w-[110px] md:min-w-[180px]">
-          <div className="flex items-center gap-2.5 shrink-0">
-            <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border shrink-0" style={{ background: C.navy, borderColor: C.border }}>
-              <img src={logoUrl} alt="SISBM logo" className="h-full w-full object-contain p-1.5" />
-            </div>
-            <span className="font-black text-xl leading-none tracking-tight whitespace-nowrap" style={{ color: C.text }}>SISBM</span>
-          </div>
-          <div className="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-semibold leading-none whitespace-nowrap shrink-0" style={{ borderColor: C.green, color: C.green, background: va(C.green, "13%") }}>
-            <BlinkDot color={C.green} />
-            Live · Serveur OK
-          </div>
-        </div>
+        {/* La marque (logo SISBM + badge Live) n'est plus ici : elle vit en haut de la
+            sidebar → une seule occurrence dans l'app. Les ~250 px libérés permettent de
+            restaurer les éléments du cluster droit qui avaient été masqués. */}
 
         {/* ─ COLONNE CENTRE : UNIQUEMENT la barre de recherche (input tronqué si l'espace manque) ── */}
-        <div ref={searchBoxRef} className="flex-1 min-w-[130px] flex items-center justify-center px-4">
-          <div ref={inputBoxRef} className="flex items-center gap-2 h-10 px-3 rounded-lg border w-full max-w-xs lg:max-w-sm" style={{ background: C.navy, borderColor: searchOpen ? C.primary : C.navyLight }}>
+        <div ref={searchBoxRef} className="flex-1 min-w-[150px] flex items-center">
+          <div ref={inputBoxRef} className="flex items-center gap-2 h-10 px-3 rounded-lg border w-full max-w-xs sm:max-w-sm lg:max-w-md" style={{ background: C.navy, borderColor: searchOpen ? C.primary : C.navyLight }}>
             <svg className="w-4 h-4 shrink-0" fill="none" stroke={C.gray} viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="8" strokeWidth="2" />
               <path d="m21 21-4.35-4.35" strokeWidth="2" strokeLinecap="round" />
@@ -162,8 +152,8 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
 
         {/* ── COLONNE DROITE : horloge, SMS, sélecteur d'organisation, notifications, profil ── */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden md:flex xl:hidden shrink-0"><LiveClock compact /></div>
-          <div className="hidden xl:flex shrink-0"><LiveClock /></div>
+          <div className="hidden md:flex lg:hidden shrink-0"><LiveClock compact /></div>
+          <div className="hidden lg:flex shrink-0"><LiveClock /></div>
 
           <div className="hidden 2xl:flex items-center gap-2 px-3 h-10 rounded-lg border whitespace-nowrap shrink-0" style={{ background: C.soft, borderColor: C.border }}>
             <span className="text-xs leading-none" style={{ color: C.textMuted }}>SMS restant</span>
@@ -173,7 +163,7 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
             </button>
           </div>
 
-        <div className="hidden xl:block relative shrink-0">
+        <div className="hidden lg:block relative shrink-0">
             <button
           ref={orgBtnRef}
           onClick={openOrgMenu}
@@ -181,7 +171,7 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
           aria-expanded={showOrgMenu}
           className="flex items-center gap-2 px-3 h-10 rounded-lg border text-sm whitespace-nowrap shrink-0" style={{ background: C.navy, borderColor: C.navyLight, color: C.text }}>
               <span className="w-5 h-5 rounded text-xs font-bold flex items-center justify-center" style={{ background: C.primary }}>T</span>
-              <span className="leading-none max-w-[150px] truncate" style={{ color: C.text }}>{smsAccount.org}</span>
+              <span className="leading-none max-w-[120px] truncate" style={{ color: C.text }}>{smsAccount.org}</span>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path d="M19 9l-7 7-7-7" strokeWidth="2" strokeLinecap="round" />
               </svg>

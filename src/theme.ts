@@ -22,14 +22,17 @@ export function v(key: string): string {
  * Applique une opacité à une couleur du thème.
  * - Référence var(--sisbm-*) → color-mix() (suit le thème courant).
  * - Couleur fixe (hex issue des mocks) → suffixe alpha hexadécimal.
+ * - Couleur manquante/invalide → `transparent` (garde-fou : une clé de thème
+ *   absente ne doit jamais interrompre le rendu de l'application).
  */
-export function va(color: string, amount: string): string {
-  const m = /^var\(--sisbm-([a-zA-Z]+)\)$/.exec(color.trim());
+export function va(color: string | undefined | null, amount: string): string {
+  if (typeof color !== "string" || color.trim() === "") return "transparent";
+  const base = color.trim();
+  const m = /^var\(--sisbm-([a-zA-Z]+)\)$/.exec(base);
   if (m) return `color-mix(in srgb, var(--sisbm-${m[1]}) ${amount}, transparent)`;
   const pct = parseFloat(amount) / 100;
   if (!Number.isNaN(pct)) {
-    const hex = color.trim();
-    const full = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.exec(hex);
+    const full = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.exec(base);
     if (full) {
       let h = full[1];
       if (h.length === 3) h = h.split("").map((c) => c + c).join("");
@@ -37,7 +40,7 @@ export function va(color: string, amount: string): string {
       return `#${h}${alpha}`;
     }
   }
-  return color;
+  return base;
 }
 
 // ─── Valeurs sombres (rendu historique — inchangées) ──────────────────────────
@@ -73,6 +76,9 @@ const DARK_VARS: VarMap = {
   sideText: "#F8FAFC",
   sideTextMuted: "#94A3B8",
   sideAccent: "#1A6BBA",
+  // Vert vif du badge « Live » de la sidebar : assombri en mode clair, il
+  // n'aurait pas assez de contraste sur le fond bleu nuit (chrome constant).
+  sideGreen: "#10B981",
 };
 
 // ─── Valeurs claires ─────────────────────────────────────────────────────────
@@ -103,6 +109,7 @@ const LIGHT_VARS: VarMap = {
   sideText: "#F8FAFC",
   sideTextMuted: "#94A3B8",
   sideAccent: "#1A6BBA",
+  sideGreen: "#10B981",
 };
 
 export const themeVars: Record<ThemeName, VarMap> = {
@@ -143,6 +150,7 @@ export const C: ThemeRef = {
   sideText: v("sideText"),
   sideTextMuted: v("sideTextMuted"),
   sideAccent: v("sideAccent"),
+  sideGreen: v("sideGreen"),
 };
 
 const STORAGE_KEY = "sisbm-theme";
