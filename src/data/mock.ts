@@ -8,6 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { C } from "@/theme";
+import { ABIDJAN_CENTER, vehicleGeo } from "@/data/geo";
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 export type NavItem = { icon: LucideIcon; label: string; tier: string; badge?: number };
@@ -31,40 +32,46 @@ export const navItems: NavItem[] = [
 export const userTier: string = "gold"; // formule simulée de l'utilisateur courant
 
 // ─── Véhicules ───────────────────────────────────────────────────────────────
+// `lat`/`lng` sont désormais de VRAIES coordonnées WGS84 (degrés décimaux),
+// résolues depuis le référentiel `@/data/geo` : placées sur une carte tuilée
+// (OSM / Esri / CARTO), les positions correspondent au terrain. L'ancien
+// référentiel pixel `x/y` (repère arbitraire 650×420) a été supprimé.
 export type Vehicle = {
   plate: string; model: string; driver: string; pos: string; lat: number; lng: number;
   status: "moving" | "alert" | "stopped" | "offline"; speed: number; battery: number;
-  gsm: number; x: number; y: number; mileage?: number;
+  gsm: number; mileage?: number;
 };
 
-export const vehicles: Vehicle[] = [
-  { plate: "AA 386 KA", model: "Peugeot Partner", driver: "Traoré S.", pos: "Yopougon", lat: 180, lng: 155, status: "moving", speed: 62, battery: 12.4, gsm: 4, x: 155, y: 155, mileage: 48320 },
-  { plate: "AB 450 FC", model: "Toyota Hilux", driver: "Kouamé B.", pos: "Cocody", lat: 200, lng: 285, status: "alert", speed: 92, battery: 11.8, gsm: 3, x: 295, y: 170, mileage: 61204 },
-  { plate: "AA 328 XP", model: "Renault Master", driver: "Doumbia M.", pos: "Marcory", lat: 290, lng: 200, status: "moving", speed: 35, battery: 12.1, gsm: 4, x: 210, y: 310, mileage: 39510 },
-  { plate: "AB 580 CS", model: "Ford Transit", driver: "Fofana K.", pos: "Plateau", lat: 215, lng: 365, status: "stopped", speed: 0, battery: 9.4, gsm: 2, x: 375, y: 215, mileage: 55132 },
-  { plate: "AB 723 GJ", model: "Mitsubishi L200", driver: "Bamba L.", pos: "Treichville", lat: 290, lng: 415, status: "offline", speed: 0, battery: 0, gsm: 0, x: 495, y: 340, mileage: 72890 },
+type VehicleSeed = Omit<Vehicle, "lat" | "lng">;
+
+/** Résout la position terrain d'un véhicule depuis le référentiel géographique. */
+const withGeo = (v: VehicleSeed): Vehicle => {
+  const g = vehicleGeo[v.plate] ?? ABIDJAN_CENTER;
+  return { ...v, lat: g.lat, lng: g.lng };
+};
+
+const seedVehicles: VehicleSeed[] = [
+  { plate: "AA 386 KA", model: "Peugeot Partner", driver: "Traoré S.", pos: "Yopougon", status: "moving", speed: 62, battery: 12.4, gsm: 4, mileage: 48320 },
+  { plate: "AB 450 FC", model: "Toyota Hilux", driver: "Kouamé B.", pos: "Cocody", status: "alert", speed: 92, battery: 11.8, gsm: 3, mileage: 61204 },
+  { plate: "AA 328 XP", model: "Renault Master", driver: "Doumbia M.", pos: "Marcory", status: "moving", speed: 35, battery: 12.1, gsm: 4, mileage: 39510 },
+  { plate: "AB 580 CS", model: "Ford Transit", driver: "Fofana K.", pos: "Plateau", status: "stopped", speed: 0, battery: 9.4, gsm: 2, mileage: 55132 },
+  { plate: "AB 723 GJ", model: "Mitsubishi L200", driver: "Bamba L.", pos: "Treichville", status: "offline", speed: 0, battery: 0, gsm: 0, mileage: 72890 },
 ];
+
+export const vehicles: Vehicle[] = seedVehicles.map(withGeo);
 
 // Véhicules étendus pour les listes / tableaux des autres modules
-export const allVehicles: Vehicle[] = [
-  ...vehicles,
-  { plate: "AA 942 MB", model: "Kia K2500", driver: "Koné A.", pos: "Adjamé", lat: 140, lng: 300, status: "moving", speed: 41, battery: 12.2, gsm: 4, x: 305, y: 105, mileage: 21847 },
-  { plate: "AB 117 DA", model: "Toyota Land Cruiser", driver: "Diabaté O.", pos: "Abobo", lat: 90, lng: 190, status: "moving", speed: 55, battery: 12.6, gsm: 4, x: 190, y: 70, mileage: 90412 },
-  { plate: "AA 607 AC", model: "Mercedes Sprinter", driver: "Ouattara I.", pos: "Port-Bouët", lat: 310, lng: 330, status: "stopped", speed: 0, battery: 11.2, gsm: 3, x: 330, y: 350, mileage: 66503 },
-  { plate: "AB 235 BF", model: "Peugeot Boxer", driver: "Soro Y.", pos: "Attécoubé", lat: 160, lng: 220, status: "moving", speed: 28, battery: 11.9, gsm: 3, x: 225, y: 205, mileage: 33610 },
-  { plate: "AA 814 KC", model: "Hyundai H350", driver: "Koffi N.", pos: "Koumassi", lat: 280, lng: 360, status: "moving", speed: 47, battery: 12.0, gsm: 4, x: 360, y: 295, mileage: 28913 },
-  { plate: "AB 059 ZX", model: "Isuzu D-Max", driver: "Gnahoré F.", pos: "Bingerville", lat: 140, lng: 480, status: "offline", speed: 0, battery: 0, gsm: 1, x: 545, y: 205, mileage: 80107 },
-  { plate: "AA 376 TJ", model: "Nissan Navara", driver: "Yaou P.", pos: "Songon", lat: 380, lng: 140, status: "stopped", speed: 0, battery: 10.8, gsm: 3, x: 150, y: 385, mileage: 44286 },
+const extraVehicles: VehicleSeed[] = [
+  { plate: "AA 942 MB", model: "Kia K2500", driver: "Koné A.", pos: "Adjamé", status: "moving", speed: 41, battery: 12.2, gsm: 4, mileage: 21847 },
+  { plate: "AB 117 DA", model: "Toyota Land Cruiser", driver: "Diabaté O.", pos: "Abobo", status: "moving", speed: 55, battery: 12.6, gsm: 4, mileage: 90412 },
+  { plate: "AA 607 AC", model: "Mercedes Sprinter", driver: "Ouattara I.", pos: "Port-Bouët", status: "stopped", speed: 0, battery: 11.2, gsm: 3, mileage: 66503 },
+  { plate: "AB 235 BF", model: "Peugeot Boxer", driver: "Soro Y.", pos: "Attécoubé", status: "moving", speed: 28, battery: 11.9, gsm: 3, mileage: 33610 },
+  { plate: "AA 814 KC", model: "Hyundai H350", driver: "Koffi N.", pos: "Koumassi", status: "moving", speed: 47, battery: 12.0, gsm: 4, mileage: 28913 },
+  { plate: "AB 059 ZX", model: "Isuzu D-Max", driver: "Gnahoré F.", pos: "Bingerville", status: "offline", speed: 0, battery: 0, gsm: 1, mileage: 80107 },
+  { plate: "AA 376 TJ", model: "Nissan Navara", driver: "Yaou P.", pos: "Songon", status: "stopped", speed: 0, battery: 10.8, gsm: 3, mileage: 44286 },
 ];
 
-// ─── Itinéraires simulés (repères carte 650×420) ─────────────────────────────
-export const routes: Record<string, { x: number; y: number }[]> = {
-  "AA 386 KA": [{ x: 70, y: 90 }, { x: 95, y: 110 }, { x: 120, y: 130 }, { x: 138, y: 148 }, { x: 155, y: 155 }, { x: 185, y: 150 }, { x: 220, y: 142 }],
-  "AB 450 FC": [{ x: 160, y: 90 }, { x: 200, y: 105 }, { x: 250, y: 130 }, { x: 295, y: 170 }, { x: 330, y: 215 }, { x: 350, y: 265 }],
-  "AA 328 XP": [{ x: 120, y: 250 }, { x: 150, y: 278 }, { x: 180, y: 300 }, { x: 210, y: 310 }, { x: 250, y: 305 }, { x: 300, y: 295 }],
-  "AB 580 CS": [{ x: 300, y: 150 }, { x: 330, y: 170 }, { x: 355, y: 195 }, { x: 375, y: 215 }, { x: 410, y: 210 }, { x: 450, y: 200 }],
-  "AB 723 GJ": [{ x: 400, y: 280 }, { x: 440, y: 300 }, { x: 470, y: 320 }, { x: 495, y: 340 }, { x: 540, y: 355 }, { x: 590, y: 360 }],
-}
+export const allVehicles: Vehicle[] = [...vehicles, ...extraVehicles.map(withGeo)];
 
 // ─── Alertes récentes (dashboard) ─────────────────────────────────────────────
 export const alerts = [

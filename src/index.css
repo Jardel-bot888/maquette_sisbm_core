@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
 
 /* Surlèvement des cartes cliquables (au survol) : l'ombre est une variable de
    thème, donc perceptible aussi bien sur une carte blanche que sur le bleu nuit.
@@ -111,36 +112,26 @@ html, body, #root {
   font-family: 'Poppins', sans-serif;
 }
 
-@keyframes vehicleTravel {
-  0% {
-    transform: translate(-4px, 2px) scale(1);
-  }
-  25% {
-    transform: translate(2px, -3px) scale(1.02);
-  }
-  50% {
-    transform: translate(6px, 1px) scale(1);
-  }
-  75% {
-    transform: translate(-2px, -2px) scale(1.02);
-  }
-  100% {
-    transform: translate(4px, 3px) scale(1);
-  }
-}
+/* ── Surcouches de la carte Leaflet ─────────────────────────────────────────
+   Le fond de carte est fait de VRAIES tuiles (OpenStreetMap, Esri World
+   Imagery, CARTO) : plus rien n'est dessiné à la main en pixels. Ce bloc
+   n'habille donc que les surcouches (épingles véhicules, tracés GPS, zones de
+   géorepérage, popups). Les pastilles posées sur les tuiles utilisent
+   `--sisbm-side*` : elles conservent le bleu nuit SISBM dans les deux thèmes,
+   comme la barre latérale, pour rester lisibles quel que soit le fond. */
 
-@keyframes vehicleTrail {
+@keyframes sisbmPulse {
   0% {
-    opacity: 0.15;
-    transform: translateX(-16px) scale(0.7);
+    transform: scale(0.55);
+    opacity: 0.9;
   }
-  50% {
-    opacity: 0.8;
-    transform: translateX(2px) scale(1);
+  70% {
+    transform: scale(1.6);
+    opacity: 0;
   }
   100% {
-    opacity: 0.15;
-    transform: translateX(18px) scale(0.8);
+    transform: scale(1.6);
+    opacity: 0;
   }
 }
 
@@ -150,18 +141,85 @@ html, body, #root {
   }
 }
 
-@keyframes routeDotPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.45;
-  }
+/* Épingle d'un véhicule suivi -------------------------------------------- */
+.leaflet-div-icon.sisbm-marker,
+.sisbm-marker {
+  background: none;
+  border: none;
 }
 
-.route-dot {
-  animation: routeDotPulse 1.6s ease-in-out infinite;
+.sisbm-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sisbm-pin__body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--sisbm-sideBg);
+  border: 2px solid var(--pin-color);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--pin-color) 30%, transparent), 0 2px 6px var(--sisbm-shadow);
+  transition: transform 0.18s ease;
+}
+
+/* Le véhicule s'oriente selon son cap réel (0° = Nord). */
+.sisbm-pin__icon {
+  width: 15px;
+  height: 15px;
+  color: var(--pin-color);
+  transform: rotate(var(--pin-bearing, 0deg));
+  transition: transform 0.5s ease;
+}
+
+/* Vitres du pictogramme : teinte bleu nuit SISBM (la variable est portée par
+   le CSS, donc fiable — un attribut SVG `fill="var(--x)"` ne l'est pas). */
+.sisbm-pin__glass {
+  fill: var(--sisbm-sideBg);
+  fill-opacity: 0.5;
+}
+
+.sisbm-pin__label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--sisbm-sideBg) 88%, transparent);
+  color: var(--sisbm-sideText);
+  border: 1px solid color-mix(in srgb, var(--pin-color) 60%, transparent);
+}
+
+.sisbm-pin__pulse {
+  position: absolute;
+  inset: -7px;
+  border-radius: 999px;
+  border: 2px solid var(--pin-color);
+  animation: sisbmPulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+.sisbm-pin--selected .sisbm-pin__body {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pin-color) 45%, transparent), 0 3px 10px var(--sisbm-shadow);
+}
+
+.sisbm-pin--offline {
+  opacity: 0.55;
+}
+
+.sisbm-pin--offline .sisbm-pin__icon {
+  color: var(--sisbm-gray);
 }
 
 /* Focus clavier toujours visible (a11y) : anneau sur les éléments interactifs */
@@ -181,4 +239,107 @@ html, body, #root {
 ::-webkit-scrollbar-thumb {
   background: var(--sisbm-textMuted);
   border-radius: 2px;
+}
+
+/* ── Tracés de la carte Leaflet ─────────────────────────────────────────────
+   `stroke`/`fill` sont pilotés par le CSS (et non par des attributs SVG) : les
+   couleurs suivent donc le thème en direct, y compris pour les tracés déjà
+   dessinés. Les attributs de présentation SVG étant de priorité faible, ces
+   règles gagnent toujours sur les `pathOptions` passées par Leaflet. */
+.sisbm-trail {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.5;
+}
+.sisbm-trail--moving {
+  stroke: var(--sisbm-green);
+}
+.sisbm-trail--alert {
+  stroke: var(--sisbm-orange);
+}
+.sisbm-trail--stopped {
+  stroke: var(--sisbm-red);
+}
+
+/* Itinéraire du véhicule sélectionné : partie parcourue pleine, partie
+   restante en pointillés animés (effet « trajet à venir »). */
+.sisbm-route-done {
+  fill: none;
+  stroke: var(--sisbm-primaryLight);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.95;
+}
+.sisbm-route-todo {
+  fill: none;
+  stroke: var(--sisbm-primaryLight);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 7 7;
+  opacity: 0.6;
+  animation: routeDash 1.2s linear infinite;
+}
+
+/* Zones de géorepérage */
+.sisbm-zone--autorisee {
+  stroke: var(--sisbm-primary);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  fill: var(--sisbm-primary);
+  fill-opacity: 0.06;
+}
+.sisbm-zone--restreinte {
+  stroke: var(--sisbm-orange);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 6;
+  fill: var(--sisbm-orange);
+  fill-opacity: 0.09;
+}
+
+/* Popup d'un véhicule (contenu React rendu dans la couche Leaflet) */
+.sisbm-popup .leaflet-popup-content-wrapper {
+  background: var(--sisbm-cardBg);
+  color: var(--sisbm-text);
+  border: 1px solid var(--sisbm-border);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px -14px var(--sisbm-shadow);
+  padding: 2px;
+}
+.sisbm-popup .leaflet-popup-content {
+  margin: 10px 12px;
+  font-family: 'Poppins', sans-serif;
+}
+.sisbm-popup .leaflet-popup-tip {
+  background: var(--sisbm-cardBg);
+}
+.sisbm-popup a.leaflet-popup-close-button {
+  color: var(--sisbm-textMuted);
+}
+
+/* Conteneur Leaflet, échelle métrique & attribution (obligatoire des fournisseurs) */
+.leaflet-container {
+  background: var(--sisbm-sideBgAlt);
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+}
+.leaflet-control-scale-line {
+  background: color-mix(in srgb, var(--sisbm-sideBgAlt) 82%, transparent);
+  color: var(--sisbm-sideText);
+  border: 1px solid var(--sisbm-sideTextMuted);
+  border-top: none;
+  font-size: 10px;
+  line-height: 1.2;
+  padding: 1px 5px;
+}
+.leaflet-control-attribution {
+  background: color-mix(in srgb, var(--sisbm-sideBgAlt) 78%, transparent) !important;
+  color: var(--sisbm-sideTextMuted) !important;
+  font-size: 9px !important;
+  padding: 0 5px !important;
+}
+.leaflet-control-attribution a {
+  color: var(--sisbm-sideText) !important;
 }

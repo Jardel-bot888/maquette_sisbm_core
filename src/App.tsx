@@ -5,6 +5,7 @@
 import { useState, Suspense, lazy } from "react";
 import { C, tierOrder, useTheme } from "@/theme";
 import { navItems, notifications, userTier, type Vehicle } from "@/data/mock";
+import { replayRoute } from "@/data/gpsFeed";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import VehiclePopover from "@/components/VehiclePopover";
@@ -126,6 +127,9 @@ export default function App() {
           vehicle={selectedVehicle}
           onClose={() => setSelectedVehicle(null)}
           onImmobilize={() => handleImmobilize(selectedVehicle)}
+          onReplay={() => { replayRoute(selectedVehicle.plate); setActiveNav("Tracking GPS"); }}
+          onShowHistory={() => setActiveNav("Tracking GPS")}
+          onCreateAlert={() => setActiveNav("Centre d'alertes SMS")}
         />
       )}
       {immobilizeTarget && (

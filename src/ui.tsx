@@ -111,6 +111,33 @@ export function Btn({ children, variant = "primary", onClick, disabled, classNam
 }
 
 // ─── Pilule de statut ─────────────────────────────────────────────────────────
+export function Tabs<T extends string>(props: {
+  tabs: { key: T; label: string }[]; active: T; onChange: (key: T) => void; label?: string;
+}) {
+  const { tabs, active, onChange, label } = props;
+  return (
+    <div role="tablist" aria-label={label ?? "Onglets"}
+      className="flex items-center gap-1 rounded-xl border p-1"
+      style={{ background: C.cardBg, borderColor: C.border }}>
+      {tabs.map((t) => {
+        const on = active === t.key;
+        return (
+          <button key={t.key} type="button" role="tab" aria-selected={on}
+            onClick={() => onChange(t.key)}
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+            style={{
+              background: on ? va(C.primary, "16%") : "transparent",
+              color: on ? C.primary : C.textMuted,
+              border: "1px solid " + (on ? C.primary : "transparent"),
+            }}>
+            {t.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function StatusPill({ color, label, soft = "13%" }: { color: string; label: string; soft?: string }) {
   return (
     <span

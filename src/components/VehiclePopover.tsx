@@ -1,8 +1,12 @@
 // ─── Popover détail véhicule ──────────────────────────────────────────────────
+// Exigence module 2 : chaque action du popover est fonctionnelle — couper
+// (immobilisation), rejouer (relance le flux sur l'itinéraire), historique
+// (onglet Historique du Tracking) et alerte (Centre d'alertes SMS).
 import { C, statusConfig, va } from "@/theme";import type { Vehicle } from "@/data/mock";
 
-export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
+export default function VehiclePopover({ vehicle, onClose, onImmobilize, onReplay, onShowHistory, onCreateAlert }: {
   vehicle: Vehicle; onClose: () => void; onImmobilize: () => void;
+  onReplay?: () => void; onShowHistory?: () => void; onCreateAlert?: () => void;
 }) {
   const sc = statusConfig[vehicle.status as keyof typeof statusConfig];
   return (
@@ -60,13 +64,25 @@ export default function VehiclePopover({ vehicle, onClose, onImmobilize }: {
           >
             🔌 Couper moteur
           </button>
-          <button className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border" style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}>
+          <button
+            onClick={() => { onReplay?.(); onClose(); }}
+            className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border transition-all hover:opacity-90"
+            style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}
+          >
             🎬 Rejouer trajet
           </button>
-          <button className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border" style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}>
+          <button
+            onClick={() => { onShowHistory?.(); onClose(); }}
+            className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border transition-all hover:opacity-90"
+            style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}
+          >
             📋 Historique
           </button>
-          <button className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border" style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}>
+          <button
+            onClick={() => { onCreateAlert?.(); onClose(); }}
+            className="flex items-center justify-center gap-1.5 py-2 rounded-xl font-semibold text-xs border transition-all hover:opacity-90"
+            style={{ background: C.navy, color: C.textDim, border: `1px solid ${C.border}` }}
+          >
             🔔 Créer alerte
           </button>
         </div>
