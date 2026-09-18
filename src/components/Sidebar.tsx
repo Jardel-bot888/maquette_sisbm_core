@@ -1,7 +1,6 @@
 // ─── Barre de navigation latérale SISBM CORE ──────────────────────────────────
 import { useState } from "react";
-import { Shield } from "lucide-react";
-import logoUrl from "../../image/logo.png";
+import { PanelLeftClose, PanelLeftOpen, Shield } from "lucide-react";
 import { C, tierOrder, va } from "@/theme";
 import { navItems, userTier } from "@/data/mock";
 import { BlinkDot } from "@/ui";
@@ -13,22 +12,11 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
       className="flex flex-col h-full border-r transition-all duration-300 shrink-0"
       style={{ width: collapsed ? 56 : 220, minWidth: collapsed ? 56 : 220, background: C.sideBg, borderColor: C.sideBorder }}
     >
-      {/* Bandeau aligné sur la hauteur de la navbar (h-16) : emplacement UNIQUE de la
-          marque (logo + « SISBM » + badge Live). Le logo fait office de bouton
-          repli/dépli : la marque reste donc visible même en mode replié. */}
+      {/* Bandeau aligné sur la hauteur de la navbar (h-16) : marque « SISBM », badge Live
+          puis bouton de repli/dépli en bout de rangée (à droite). Plus aucune image de
+          logo : le repli est commandé par une icône, et le bouton reste visible —
+          recentré — en mode replié, seul moyen de redéplier la navigation. */}
       <div className="flex items-center gap-2 h-16 px-2 border-b shrink-0 overflow-hidden" style={{ borderColor: C.sideBorder }}>
-        <button
-          type="button"
-          onClick={() => setCollapsed(!collapsed)}
-          aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
-          aria-expanded={!collapsed}
-          title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
-          className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border shrink-0 cursor-pointer transition-all hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ background: C.sideBgAlt, borderColor: collapsed ? C.sideBorder : C.sideAccent }}
-        >
-          <img src={logoUrl} alt="SISBM" className="h-full w-full object-contain p-1" />
-        </button>
-
         {!collapsed && (
           <>
             <span className="font-black text-lg leading-none tracking-tight whitespace-nowrap min-w-0 truncate" style={{ color: C.sideText }}>
@@ -43,6 +31,18 @@ export default function Sidebar({ active, setActive, tier = userTier }: { active
             </span>
           </>
         )}
+
+        <button
+          type="button"
+          onClick={() => setCollapsed(!collapsed)}
+          aria-label={collapsed ? "Déplier la navigation" : "Replier la navigation"}
+          aria-expanded={!collapsed}
+          title={collapsed ? "Déplier la navigation" : "Replier la navigation"}
+          className={`flex h-9 w-9 items-center justify-center rounded-xl border shrink-0 cursor-pointer transition-all hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2${collapsed ? " mx-auto" : ""}`}
+          style={{ background: C.sideBgAlt, borderColor: collapsed ? C.sideBorder : C.sideAccent, color: C.sideText }}
+        >
+          {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+        </button>
       </div>
 
       <nav className="flex-1 overflow-y-auto pb-4">

@@ -1,5 +1,6 @@
 // ─── En-tête SISBM CORE ────────────────────────────────────────────────────────
-// Logo, recherche globale fonctionnelle (véhicule / conducteur / zone),
+// Marque (située dans la sidebar), recherche globale fonctionnelle (véhicule /
+// conducteur / zone),
 // horloge, crédits SMS, sélecteur d'organisation, cloche notifications, profil.
 
 import { useEffect, useRef, useState } from "react";
@@ -95,10 +96,9 @@ export default function Header({ onNotifClick, onUserMenu, onNavigate, unreadCou
       {/* ══ Rangée unique et rigide : recherche + cluster droit, hauteur fixe, AUCUN retour à la ligne possible ══ */}
       <div className="flex items-center h-16 gap-3 px-4 overflow-hidden">
 
-        {/* ── COLONNE GAUCHE : Logo SISBM + badge Live (espacement gap-4 + largeur minimale garantie :
-              le badge ne peut plus chevaucher le logo et le sidebar ne peut plus déborder dessus) ── */}
-        {/* La marque (logo SISBM + badge Live) n'est plus ici : elle vit en haut de la
-            sidebar → une seule occurrence dans l'app. Les ~250 px libérés permettent de
+        {/* La marque n'est pas dans l'en-tête : ni logo ni image n'y figurent. Le bloc
+            de marque vit en haut de la sidebar (bouton de repli + « SISBM » + badge
+            Live) → une seule occurrence dans l'app. Les ~250 px libérés permettent de
             restaurer les éléments du cluster droit qui avaient été masqués. */}
 
         {/* ─ COLONNE CENTRE : UNIQUEMENT la barre de recherche (input tronqué si l'espace manque) ── */}
